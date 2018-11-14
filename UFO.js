@@ -1,3 +1,12 @@
+// ECE 4525 Video Game Design and Engineering Final Project 
+// Title:           UFO Attack 
+// Programmers:     Michael Pocta and James D Toussaint
+// Description:     The player controls a robot/commando tasked with 
+//                  destorying all enemies (UFOs) present on the screen. 
+//                  The play area will be initialized via a tilemap. 
+//                  The user is presented with a starting screen when the
+//                  game initializes. 
+
 var sketchProc=function(processingInstance){ with (processingInstance){
 size(400, 400); 
 frameRate(60);
