@@ -13,8 +13,8 @@ frameRate(60);
         "                              ",
         "                              ",
         "                              ",
-        "                              ",
-        "                              ",
+        "      w                       ",
+        "     www                      ",
         "wwwwwwwwwwwwwwwwwwwwwwwwwwwwww"];
 
     var gamestate = 0;  // Main menu
@@ -38,8 +38,8 @@ frameRate(60);
     var scrollval = new PVector(0, 0);
 
     // Forces
-    var gravity = new PVector(0, 0.5);
-    var jumpForce = new PVector(0, -10);
+    var gravity = new PVector(0, 1.5);
+    var jumpForce = new PVector(0, -12);
 
     // Button, background, and tilemap objects
     var menuButtonObj = function(x, y, text) {
@@ -168,7 +168,7 @@ frameRate(60);
     var ingamemenubuttons = [controls, quit];
 
     // Hero (user) Object
-    var hero = new heroObj(0, 340);
+    var hero = new heroObj(0, 320);
 
     // Draw Functions
     menuButtonObj.prototype.draw = function() {
@@ -396,7 +396,7 @@ frameRate(60);
         fill(255, 0, 0);
         pushMatrix();
         translate(this.position.x, this.position.y);
-        rect(0, 0, 20, 20);
+        rect(0, 0, 40, 40);
         popMatrix();
         
     };
@@ -419,8 +419,8 @@ frameRate(60);
     };
     heroObj.prototype.move = function() {
         this.acceleration.set(0, 0);
-        if (keyArray[RIGHT] === 1) {
-            if(this.position.x < (background_width*400) - 20) {
+        if (keyArray[68] === 1) {
+            if(this.position.x < (background_width*400) - 40) {
                 this.position.x += this.speed;
             }
 
@@ -429,7 +429,7 @@ frameRate(60);
                 scrollval.x -= this.speed;
             }
         }
-        else if(keyArray[LEFT] === 1) {
+        else if(keyArray[65] === 1) {
             if(this.position.x > 0) {
                 this.position.x -= this.speed;
             }
@@ -450,8 +450,8 @@ frameRate(60);
         this.position.add(this.velocity);
         this.acceleration.set(0, 0);
 
-        if (this.position.y >= 339.99) {
-            this.position.y = 340;
+        if (this.position.y >= 319.99) {
+            this.position.y = 320;
             this.velocity.y = 0;
             this.jump = 0;
         }
@@ -460,7 +460,9 @@ frameRate(60);
     //Hanlding key presses
     var keyPressed = function() {
         keyArray[keyCode] = 1;
-        if ((keyCode === 32) && (hero.jump === 0)) {
+
+        // Press W to jump
+        if ((keyCode === 87) && (hero.jump === 0)) {
             hero.jump = 2;
         }
     };
