@@ -447,7 +447,6 @@ frameRate(60);
             this.applyForce(gravity);
         }
         this.velocity.add(this.acceleration);
-        //println(this.jump);
         this.position.add(this.velocity);
         this.acceleration.set(0, 0);
 
@@ -645,7 +644,7 @@ frameRate(60);
         // Gameplay
         else if(gamestate === 1) {
             background(135, 206, 235);
-            //menu.draw();
+            menu.draw();
             if(ingamestate === 1) {
                 for(var i = 0; i < ingamemenubuttons.length; i++) {
                     ingamemenubuttons[i].draw();   
