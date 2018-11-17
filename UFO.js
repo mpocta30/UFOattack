@@ -575,7 +575,7 @@ frameRate(60);
             }
             // in game bullet updates
             if (bullet.state === 0) {
-                bullet.dir.set(((mouseX + -scrollval.x) - (bullet.position.x + 20)) / 20, (mouseY - (bullet.position.y - 48)) / 20); 
+                bullet.dir.set(((mouseX + -scrollval.x) - (bullet.position.x + 20)) / 15, (mouseY - (bullet.position.y - 48)) / 15); 
                 bullet.show = 1; 
                 bullet.state = 1; 
                 bullet.frame = frameCount; 
@@ -664,6 +664,7 @@ frameRate(60);
             this.state = 0; 
             this.x += 600; 
             this.hits = 5;
+            if (this.speed < 0) { this.speed = -this.speed }
         }
     };
 
