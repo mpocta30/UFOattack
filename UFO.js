@@ -82,7 +82,12 @@ frameRate(60);
         this.x = x; 
         this.y = y; 
         this.state = 0; 
+        this.speed = 2; 
     }; 
+    var bulletObj = function(x, y) {
+        this.position = new PVector(x, y); 
+        this.dir = new PVector(0, 0); 
+    };
 
     // // Used to randomly choose colors for bricks
     // var brickObj = function() {
@@ -622,7 +627,28 @@ frameRate(60);
     bezier(20 + this.x, 130 + this.y, -20 + this.x, 10 + this.y, 100 + this.x, 10 + this.y, 60 + this.x, 130 + this.y); 
     };
 
+    alienObj.prototype.move = function() {
+        // fly in state 
+        if (this.state === 0) {
+            this.x = this.x - 4; 
+            // transition to normal state
+            if (dist(this.x, this.y, hero.position.x, hero.position.y) < 350) {
+                this.state = 1; 
+            }
+        }
+        else if (this.state === 1) {
+            this.x = this.x - this.speed; 
+            if (this.x < 0) {
+                this.speed = -this.speed; 
+            }
+            else if (this.x > 400 * background_width) {
+                this.speed = -this.speed; 
+            }
+        }
+    };
+
     var alien1 = new alienObj(0, 0);
+    var aliens = [new alienObj(hero.position.x + 500, -20)];
 
     var draw = function() {
         // Main Menu
@@ -704,6 +730,12 @@ frameRate(60);
                 hero.move();
                 hero.draw();
                 arm.draw();
+
+                // Display aliens
+                for (var i = 0; i < aliens.length; i++) {
+                    aliens[i].draw(); 
+                    aliens[i].move(); 
+                }
             }
         }
         // Instructions
