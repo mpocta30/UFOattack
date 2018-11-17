@@ -101,6 +101,13 @@ frameRate(60);
         this.state = 0;
         this.frame = 0;  
     }; 
+    var laserObj = function(x, y) {
+        this.position = new PVector(0, 0); 
+        this.dir = new PVector(0, 0); 
+        this.show = 0; 
+        this.state = 0; 
+        this.frame = 0; 
+    };
     
 
     // // Used to randomly choose colors for bricks
@@ -120,6 +127,7 @@ frameRate(60);
         this.force = new PVector(0, 0);
         this.currFrame = frameCount;
         this.jump = 0;
+        this.hits = 10; 
     };
 
     // Apply force to hero
@@ -679,6 +687,7 @@ frameRate(60);
 
     var alien1 = new alienObj(0, 0);
     var aliens = [new alienObj(hero.position.x + 500, -20)];
+    var lasers = [new laserObj(40 + aliens[0].x, 156 + aliens[0].y)];
     
     bulletObj.prototype.draw = function(ang) {
         pushMatrix();
@@ -709,6 +718,46 @@ frameRate(60);
             if (dist(aliens[i].x + 39, aliens[i].y + 107, this.position.x, this.position.y) < 50 && this.show === 1) {
                 aliens[i].hits--;
                 this.show = 0;  
+            }
+        }
+    };
+
+    laserObj.prototype.draw = function() {
+        pushMatrix(); 
+        translate(this.position.x, this.position.y); 
+        fill(0, 240, 0); 
+        ellipse(0, 0, 4, 4); 
+        popMatrix(); 
+    };
+
+    laserObj.prototype.move = function() {
+        // state behavior 
+        if (this.state === 0) {
+            this.position.set((40 + aliens[0].x, 156 + aliens[0].y));
+            // transition to fired state 
+            if (aliens[0].state !== 0) {
+                this.dir.set((hero.position.x - this.position.x) / 15, (hero.position.y - this.position.y) / 15); 
+                this.frame = frameCount; 
+                this.show = 1; 
+                this.state = 1; 
+            }
+        }
+        else if (this.state === 1) {
+            this.position.add(this.dir); 
+            if (frameCount - this.frame > 40) {
+                this.state = 2; // transition back to non-fired state 
+                this.show = 0; 
+                this.frame = frameCount; 
+            }
+            // check for collision with the player 
+            if (dist(hero.position.x, hero.position.y, this.position.x, this.position.y) < 40 && this.show === 1) {
+                hero.hits--; 
+                this.show = 0; 
+            }
+        }
+        else if (this.state === 2) { // cooldown state 
+            if (frameCount - this.frame > 30) {
+                this.state = 0; 
             }
         }
     };
@@ -805,9 +854,15 @@ frameRate(60);
                     aliens[i].draw(); 
                     aliens[i].move(); 
                 }
-
+                for (var i = 0; i < lasers.length; i++) {
+                    if (lasers[i].show === 1) {
+                        lasers[i].draw(); 
+                    }
+                    lasers[i].move();
+                }
                 //fill(255, 0, 0);
-                //text(scrollval.x, 100, 100, 100, 100); 
+                //text(aliens[0].x, 100, 100, 100, 100); 
+                //text(lasers[0].position.x, 100, 200, 100, 100); 
             }
         }
         // Instructions
