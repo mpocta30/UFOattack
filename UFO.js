@@ -74,6 +74,15 @@ frameRate(60);
         this.y = random(-50, 450);
         this.size = random(1, 3);
     };
+    var armObj = function() {
+        this.position = hero.position;    
+        this.angle = 0; 
+    };
+    var alienObj = function(x, y) {
+        this.x = x; 
+        this.y = y; 
+        this.state = 0; 
+    }; 
 
     // // Used to randomly choose colors for bricks
     // var brickObj = function() {
@@ -169,6 +178,9 @@ frameRate(60);
 
     // Hero (user) Object
     var hero = new heroObj(0, 320);
+
+    // construct arm object
+    var arm = new armObj(); 
 
     // Draw Functions
     menuButtonObj.prototype.draw = function() {
@@ -392,13 +404,38 @@ frameRate(60);
         arc(this.x+floor(400/10), this.y+floor(0/10), floor(190/10), floor(144/10), radians(90), radians(180));
     };
 
+    armObj.prototype.draw = function() {
+        // update rotation angle 
+        this.angle = atan2(mouseY-height/2, mouseX-width/2);
+        
+        pushMatrix(); 
+        translate(this.position.x + 20, this.position.y + -48); 
+        rotate(this.angle);
+        rect(-5, -5, 30, 10); 
+        popMatrix(); 
+    };
+
     heroObj.prototype.draw = function() {
-        fill(255, 0, 0);
         pushMatrix();
         translate(this.position.x, this.position.y);
-        rect(0, 0, 40, 40);
-        popMatrix();
+        fill(122, 122, 122);
+        quad(0, -8, 40, -8, 30, 20, 10, 20); 
+        quad(-5, -53, 45, -53, 35, -19, 5, -19);
+        rect(5, -86, 28, 22, 5); 
+    
+        fill(48, 48, 48);
+        rect(2, -14, 35, 5, 5);
+        rect(1, -19, 37, 5, 5);
+        rect(9, -58, 20, 3, 5);
+        rect(8, -63, 22, 4, 5);
+        rect(-12, 19, 62, 20, 10);
         
+        fill(163, 163, 163);
+        ellipse(0, 30, 17, 18); 
+        ellipse(39, 30, 17, 18); 
+    
+    
+        popMatrix();
     };
 
     // Snow for the first level background
@@ -533,11 +570,6 @@ frameRate(60);
         }
     };
 
-    var alienObj = function(x, y) {
-        this.x = x; 
-        this.y = y; 
-    }; 
-
     alienObj.prototype.draw = function() {
         
 
@@ -659,18 +691,19 @@ frameRate(60);
                 }
                 translate(scrollval.x, scrollval.y);
                 // Mountains
-                drawBackground();
+                //drawBackground();
                 
                 // Snow Fall
-                for (var i=0; i<snowflakes.length; i++) {
+                /*for (var i=0; i<snowflakes.length; i++) {
                     snowflakes[i].move();
                     snowflakes[i].draw();
-                }
+                }*/
                 displayTilemap();
                 
                 // Display hero and make him move
                 hero.move();
                 hero.draw();
+                arm.draw();
             }
         }
         // Instructions
