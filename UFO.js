@@ -87,7 +87,11 @@ frameRate(60);
     var bulletObj = function(x, y) {
         this.position = new PVector(x, y); 
         this.dir = new PVector(0, 0); 
-    };
+        this.show = 0; 
+        this.state = 0;
+        this.frame = 0;  
+    }; 
+    
 
     // // Used to randomly choose colors for bricks
     // var brickObj = function() {
@@ -186,6 +190,7 @@ frameRate(60);
 
     // construct arm object
     var arm = new armObj(); 
+    var bullet = new bulletObj(arm.position.x, arm.position.y); 
 
     // Draw Functions
     menuButtonObj.prototype.draw = function() {
@@ -409,13 +414,13 @@ frameRate(60);
         arc(this.x+floor(400/10), this.y+floor(0/10), floor(190/10), floor(144/10), radians(90), radians(180));
     };
 
-    armObj.prototype.draw = function() {
+    armObj.prototype.draw = function(ang) {
         // update rotation angle 
-        this.angle = atan2(mouseY-height/2, mouseX-width/2);
+        //this.angle = atan2(mouseY-height/2, mouseX-width/2);
         
         pushMatrix(); 
         translate(this.position.x + 20, this.position.y + -48); 
-        rotate(this.angle);
+        rotate(ang);
         rect(-5, -5, 30, 10); 
         popMatrix(); 
     };
@@ -567,12 +572,20 @@ frameRate(60);
                 ingamestate = 0;
                 gamestate = 0;
             }
+            // in game bullet updates
+            if (bullet.state === 0) {
+                bullet.dir.set(((mouseX + -scrollval.x) - (bullet.position.x + 20)) / 20, (mouseY - (bullet.position.y - 48)) / 20); 
+                bullet.show = 1; 
+                bullet.state = 1; 
+                bullet.frame = frameCount; 
+            }
         }
         else {
             if((abs(backbutton.position.x - mouseX) <= 60) && (abs(backbutton.position.y - mouseY) <= 20) && gamestate !== 1) {
                 gamestate = 0;
             }
         }
+        
     };
 
     alienObj.prototype.draw = function() {
@@ -649,6 +662,33 @@ frameRate(60);
 
     var alien1 = new alienObj(0, 0);
     var aliens = [new alienObj(hero.position.x + 500, -20)];
+    
+    bulletObj.prototype.draw = function(ang) {
+        pushMatrix();
+        translate(this.position.x + 20, this.position.y + -48); 
+        fill(209, 2, 2);
+        ellipse(23*cos(ang), 23*sin(ang), 4, 4); 
+        popMatrix(); 
+    };
+    
+    bulletObj.prototype.move = function() {
+        // bound checking 
+
+        // state behavior 
+        if (this.state === 0) {
+            this.position.set(arm.position.x, arm.position.y); 
+            // transitions to state 1 when the mouse clicks 
+        }
+        else if (this.state === 1) {
+            this.position.add(this.dir); 
+            // transition back to state 0 
+            if (frameCount - this.frame > 60) {
+                this.state = 0; 
+                this.show = 0; 
+            }
+        }
+    };
+    
 
     var draw = function() {
         // Main Menu
@@ -729,13 +769,21 @@ frameRate(60);
                 // Display hero and make him move
                 hero.move();
                 hero.draw();
-                arm.draw();
-
+                var ang = atan2(mouseY-height/2, mouseX-width/2);
+                arm.draw(ang);
+                if (bullet.show === 1) {
+                    bullet.draw(); 
+                    
+                }
+                bullet.move(); 
                 // Display aliens
                 for (var i = 0; i < aliens.length; i++) {
                     aliens[i].draw(); 
                     aliens[i].move(); 
                 }
+
+                //fill(255, 0, 0);
+                //text(scrollval.x, 100, 100, 100, 100); 
             }
         }
         // Instructions
@@ -787,6 +835,7 @@ frameRate(60);
             // draw alien
             stroke(0, 0, 0);
             alien1.draw();
+            
         }
     };
 }};
