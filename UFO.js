@@ -83,6 +83,7 @@ frameRate(60);
         this.y = y; 
         this.state = 0; 
         this.speed = 2; 
+        this.hits = 5; 
     }; 
     var bulletObj = function(x, y) {
         this.position = new PVector(x, y); 
@@ -658,6 +659,12 @@ frameRate(60);
                 this.speed = -this.speed; 
             }
         }
+        // if hit five times, transition back to state 0 
+        if (this.hits === 0) {
+            this.state = 0; 
+            this.x += 600; 
+            this.hits = 5;
+        }
     };
 
     var alien1 = new alienObj(0, 0);
@@ -682,9 +689,16 @@ frameRate(60);
         else if (this.state === 1) {
             this.position.add(this.dir); 
             // transition back to state 0 
-            if (frameCount - this.frame > 60) {
+            if (frameCount - this.frame > 35) {
                 this.state = 0; 
                 this.show = 0; 
+            }
+        }
+        // check collisions with bullets 
+        for (var i = 0; i < aliens.length; i++) {
+            if (dist(aliens[i].x + 39, aliens[i].y + 107, this.position.x, this.position.y) < 50 && this.show === 1) {
+                aliens[i].hits--;
+                this.show = 0;  
             }
         }
     };
