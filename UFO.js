@@ -739,11 +739,12 @@ frameRate(60);
                 particles.push(new particleObj(this.x + 40, this.y + 140));
             }
             this.state = 0; 
-            this.x += 600; 
+            this.x += 750; 
             this.hits = 5;
             
             if (this.speed < 0) { this.speed = -this.speed }
         }
+        
     };
 
     particleObj.prototype.move = function() {
@@ -791,7 +792,8 @@ frameRate(60);
         }
         // check collisions with bullets 
         for (var i = 0; i < aliens.length; i++) {
-            if (dist(aliens[i].x + 39, aliens[i].y + 107, this.position.x, this.position.y) < 50 && this.show === 1) {
+            if ((dist(aliens[i].x + 39, aliens[i].y + 107, this.position.x, this.position.y) < 50 ||
+                 dist(15 + aliens[i].x, 130 + aliens[i].y, this.position.x, this.position.y) < 30) && this.show === 1) {
                 aliens[i].hits--;
                 this.show = 0;  
             }
@@ -828,7 +830,9 @@ frameRate(60);
             // check for collision with the player 
             if ((dist(hero.position.x + 30, hero.position.y - 55, this.position.x, this.position.y) < 30  ||
                 dist(hero.position.x + 30, hero.position.y - 20, this.position.x, this.position.y) < 30) && this.show === 1) {
-                hero.hits--; 
+                if (hero.hits > 0) {
+                    hero.hits--; 
+                }
                 this.show = 0; 
             }
         }
