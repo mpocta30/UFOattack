@@ -128,6 +128,7 @@ frameRate(60);
         this.currFrame = frameCount;
         this.jump = 0;
         this.hits = 10; 
+        this.rot = 0; 
     };
 
     // Apply force to hero
@@ -437,6 +438,7 @@ frameRate(60);
         //this.angle = atan2(mouseY-height/2, mouseX-width/2);
         
         pushMatrix(); 
+        fill(60, 60, 60); 
         translate(this.position.x + 20, this.position.y + -48); 
         rotate(ang);
         rect(-5, -5, 30, 10); 
@@ -444,6 +446,7 @@ frameRate(60);
     };
 
     heroObj.prototype.draw = function() {
+        stroke(0, 0, 0); 
         pushMatrix();
         translate(this.position.x, this.position.y);
         fill(122, 122, 122);
@@ -460,8 +463,39 @@ frameRate(60);
         
         fill(163, 163, 163);
         ellipse(0, 30, 17, 18); 
-        ellipse(39, 30, 17, 18); 
-    
+        ellipse(39, 30, 17, 18);
+        // track details
+        ellipse(13, 23, 5, 5); 
+        ellipse(20, 23, 5, 5); 
+        ellipse(27, 23, 5, 5); 
+        ellipse(13, 36, 5, 5); 
+        ellipse(20, 36, 5, 5); 
+        ellipse(27, 36, 5, 5); 
+
+
+        fill(43, 43, 43); 
+        // wheel details for left wheel 
+        pushMatrix(); 
+        translate(0, 30); 
+        rotate(this.rot); 
+        ellipse(5, 0, 2, 2); 
+        ellipse(-5, 0, 2, 2);
+        ellipse(0, -5, 2, 2); 
+        ellipse(0, 5, 2, 2);
+        popMatrix(); 
+        // wheel details for right wheel 
+        pushMatrix();
+        translate(39, 30); 
+        rotate(this.rot); 
+        ellipse(5, 0, 2, 2); 
+        ellipse(-5, 0, 2, 2);
+        ellipse(0, -5, 2, 2); 
+        ellipse(0, 5, 2, 2);
+        popMatrix();     
+
+        // detail on the head
+        fill(194, 0, 0);
+        rect(6, -81, 27, 4); 
     
         popMatrix();
     };
@@ -487,6 +521,7 @@ frameRate(60);
         if (keyArray[68] === 1) {
             if(this.position.x < (background_width*400) - 40) {
                 this.position.x += this.speed;
+                this.rot += 0.25
             }
 
             // Determine if the screen needs to be translated
@@ -497,6 +532,7 @@ frameRate(60);
         else if(keyArray[65] === 1) {
             if(this.position.x > 0) {
                 this.position.x -= this.speed;
+                this.rot -= 0.25;
             }
 
             // Determine if the screen needs to be translated
@@ -733,10 +769,10 @@ frameRate(60);
     laserObj.prototype.move = function() {
         // state behavior 
         if (this.state === 0) {
-            this.position.set((40 + aliens[0].x, 156 + aliens[0].y));
+            this.position.set(40 + aliens[0].x, 156 + aliens[0].y);
             // transition to fired state 
-            if (aliens[0].state !== 0) {
-                this.dir.set((hero.position.x - this.position.x) / 15, (hero.position.y - this.position.y) / 15); 
+            if (aliens[0].state !== 0 && abs(this.position.x - hero.position.x) < 200) {
+                this.dir.set(((hero.position.x + 20) - this.position.x + random(-15, 15)) / 25, ((hero.position.y - 55) - this.position.y + random(-10, 10)) / 25); 
                 this.frame = frameCount; 
                 this.show = 1; 
                 this.state = 1; 
@@ -750,13 +786,14 @@ frameRate(60);
                 this.frame = frameCount; 
             }
             // check for collision with the player 
-            if (dist(hero.position.x, hero.position.y, this.position.x, this.position.y) < 40 && this.show === 1) {
+            if (dist(hero.position.x + 30, hero.position.y - 55, this.position.x, this.position.y) < 30  ||
+                dist(hero.position.x + 30, hero.position.y - 20, this.position.x, this.position.y) < 30 && this.show === 1) {
                 hero.hits--; 
                 this.show = 0; 
             }
         }
         else if (this.state === 2) { // cooldown state 
-            if (frameCount - this.frame > 30) {
+            if (frameCount - this.frame > 50) {
                 this.state = 0; 
             }
         }
