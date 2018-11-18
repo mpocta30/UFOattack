@@ -45,6 +45,7 @@ frameRate(60);
     var keyArray = [];
     var initialized = 0;
     var scrollval = new PVector(0, 0);
+    var level1_count = 0; 
 
     // Forces
     var gravity = new PVector(0, 1.5);
@@ -986,6 +987,10 @@ frameRate(60);
                 textSize(14); 
                 fill(24, 24, 24)
                 text("Health:", 250 + abs(scrollval.x), 380, 100, 100);
+                text("Destroyed", 250 + abs(scrollval.x), 10, 100, 100); 
+                text(level1_count, 320 + abs(scrollval.x), 10, 100, 100); 
+                text("/ 5 Aliens", 330 + abs(scrollval.x), 10, 1000, 100); 
+
                 fill(230, 0, 0);
                 rect(300 + abs(scrollval.x), 380, 7*hero.hits, 10); 
             }
