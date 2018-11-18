@@ -108,7 +108,17 @@ frameRate(60);
         this.state = 0; 
         this.frame = 0; 
     };
+    var particleObj = function(x, y) {
+        this.position = new PVector(x, y);
+        //this.velocity = new PVector(random(-0.5, 0.5), random(-0.5, 0.5));	// cartesian
+        this.velocity = new PVector(random(0, TWO_PI), random(-1.2, 1.2));
+        this.size = random(1, 10);
+        this.c1 = random(155, 255);
+        this.c2 = random(0, 255);
+        this.timeLeft = 100;
+    };
     
+    var particles = [];
 
     // // Used to randomly choose colors for bricks
     // var brickObj = function() {
@@ -441,7 +451,10 @@ frameRate(60);
         fill(60, 60, 60); 
         translate(this.position.x + 20, this.position.y + -48); 
         rotate(ang);
-        rect(-5, -5, 30, 10); 
+        rect(-5, -4, 30, 7); 
+        fill(48, 48, 48);
+        quad(15, -5, 28, -4, 28, 4, 15, 5); 
+        ellipse(0, 0, 12, 12); 
         popMatrix(); 
     };
 
@@ -721,11 +734,31 @@ frameRate(60);
         }
         // if hit five times, transition back to state 0 
         if (this.hits === 0) {
+            // generate explosion
+            for (var i = 0; i < 200; i++) {
+                particles.push(new particleObj(this.x + 40, this.y + 140));
+            }
             this.state = 0; 
             this.x += 600; 
             this.hits = 5;
+            
             if (this.speed < 0) { this.speed = -this.speed }
         }
+    };
+
+    particleObj.prototype.move = function() {
+        var v = new PVector(this.velocity.y*cos(this.velocity.x),
+        this.velocity.y*sin(this.velocity.x));
+    
+        this.position.add(v);	
+        //this.position.add(this.velocity);	// cartesian
+        this.timeLeft--;
+    };
+    
+    particleObj.prototype.draw = function() {
+        noStroke();
+        fill(this.c1, this.c2, 0, this.timeLeft);
+        ellipse(this.position.x, this.position.y, this.size, this.size);
     };
 
     var alien1 = new alienObj(0, 0);
@@ -793,8 +826,8 @@ frameRate(60);
                 this.frame = frameCount; 
             }
             // check for collision with the player 
-            if (dist(hero.position.x + 30, hero.position.y - 55, this.position.x, this.position.y) < 30  ||
-                dist(hero.position.x + 30, hero.position.y - 20, this.position.x, this.position.y) < 30 && this.show === 1) {
+            if ((dist(hero.position.x + 30, hero.position.y - 55, this.position.x, this.position.y) < 30  ||
+                dist(hero.position.x + 30, hero.position.y - 20, this.position.x, this.position.y) < 30) && this.show === 1) {
                 hero.hits--; 
                 this.show = 0; 
             }
@@ -857,6 +890,10 @@ frameRate(60);
                 stars[i].move();
                 stars[i].draw();
             }
+
+            // names
+            textSize(14); 
+            text("Designed by Michael Pocta and David Toussaint", 50, 382, 1000, 50);
         }
         // Gameplay
         else if(gamestate === 1) {
@@ -904,9 +941,25 @@ frameRate(60);
                     }
                     lasers[i].move();
                 }
+                // explosions 
+                for (var i=0; i<particles.length; i++) {
+                    if (particles[i].timeLeft > 0) {
+                        particles[i].draw();
+                        particles[i].move();
+                    }
+                    else {
+                        particles.splice(i, 1);
+                    }
+                }
+
                 //fill(255, 0, 0);
                 //text(aliens[0].x, 100, 100, 100, 100); 
                 //text(lasers[0].position.x, 100, 200, 100, 100); 
+                textSize(14); 
+                fill(24, 24, 24)
+                text("Health:", 250 + abs(scrollval.x), 380, 100, 100);
+                fill(230, 0, 0);
+                rect(300 + abs(scrollval.x), 380, 7*hero.hits, 10); 
             }
         }
         // Instructions
