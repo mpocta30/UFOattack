@@ -496,6 +496,13 @@ frameRate(60);
         // detail on the head
         fill(194, 0, 0);
         rect(6, -81, 27, 4); 
+        fill(41, 41, 41);
+        rect(9, -71, 1, 3); 
+        rect(13, -71, 1, 3); 
+        rect(17, -71, 1, 3); 
+        rect(21, -71, 1, 3); 
+        rect(25, -71, 1, 3); 
+        rect(29, -71, 1, 3); 
     
         popMatrix();
     };
