@@ -1,17 +1,3 @@
-// ECE 4525 Video Game Design and Engineering Final Project 
-// Title:           UFO Attack 
-// Programmers:     Michael Pocta and James D Toussaint
-// Description:     The player controls a robot/commando tasked with 
-//                  destorying all enemies (UFOs) present on the screen. 
-//                  The play area will be initialized via a tilemap. 
-//                  The user is presented with a starting screen when the
-//                  game initializes. 
-
-var sketchProc=function(processingInstance){ with (processingInstance){
-size(400, 400); 
-frameRate(60);
-
-
     angleMode = "radians";
 
     var tileMap = [
@@ -84,6 +70,20 @@ frameRate(60);
         this.y = random(-50, 450);
         this.size = random(1, 3);
     };
+        // Initialize the player object
+    var heroObj = function(x, y) {
+        this.position = new PVector(x, y);
+        this.speed = 5;
+        this.velocity = new PVector(0, 0);
+        this.acceleration = new PVector(0, 0);
+        this.force = new PVector(0, 0);
+        this.currFrame = frameCount;
+        this.jump = 0;
+        this.hits = 10; 
+        this.rot = 0; 
+    };
+        // Hero (user) Object
+    var hero = new heroObj(0, 320);
     var armObj = function() {
         this.position = hero.position;    
         this.angle = 0; 
@@ -132,18 +132,7 @@ frameRate(60);
     //     this.b = random(120, 130);
     // };
 
-    // Initialize the player object
-    var heroObj = function(x, y) {
-        this.position = new PVector(x, y);
-        this.speed = 5;
-        this.velocity = new PVector(0, 0);
-        this.acceleration = new PVector(0, 0);
-        this.force = new PVector(0, 0);
-        this.currFrame = frameCount;
-        this.jump = 0;
-        this.hits = 10; 
-        this.rot = 0; 
-    };
+
 
     // Apply force to hero
     heroObj.prototype.applyForce = function(force) {
@@ -218,8 +207,7 @@ frameRate(60);
     var quit = new ingamemenuButtonObj(200, 200, 'Quit');
     var ingamemenubuttons = [controls, quit];
 
-    // Hero (user) Object
-    var hero = new heroObj(0, 320);
+
 
     // construct arm object
     var arm = new armObj(); 
@@ -523,6 +511,7 @@ frameRate(60);
     
         popMatrix();
     };
+    var aliens = [new alienObj(hero.position.x + 500, -20)];
 
     // Snow for the first level background
     snowflakeType.prototype.draw = function() {
@@ -759,7 +748,7 @@ frameRate(60);
             this.x += 750; 
             this.hits = 5;
             level1_count++;
-            if (this.speed < 0) { this.speed = -this.speed }
+            if (this.speed < 0) { this.speed = -this.speed; }
         }
         
     };
@@ -797,7 +786,7 @@ frameRate(60);
     };
 
     var alien1 = new alienObj(0, 0);
-    var aliens = [new alienObj(hero.position.x + 500, -20)];
+    
     var lasers = [new laserObj(40 + aliens[0].x, 156 + aliens[0].y)];
     
     bulletObj.prototype.draw = function(ang) {
@@ -1010,7 +999,7 @@ frameRate(60);
                 //text(aliens[0].x, 100, 100, 100, 100); 
                 //text(lasers[0].position.x, 100, 200, 100, 100); 
                 textSize(14); 
-                fill(24, 24, 24)
+                fill(24, 24, 24);
                 text("Health:", 250 + abs(scrollval.x), 380, 100, 100);
                 text("Destroyed", 250 + abs(scrollval.x), 10, 100, 100); 
                 text(level1_count, 320 + abs(scrollval.x), 10, 100, 100); 
@@ -1080,4 +1069,3 @@ frameRate(60);
             
         }
     };
-}};
