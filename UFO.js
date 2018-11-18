@@ -92,8 +92,11 @@ frameRate(60);
         this.y = y; 
         this.state = 0; 
         this.speed = 2; 
-        this.hits = 5; 
-    }; 
+        this.hits = 5;
+        this.step = new PVector(0, 0);
+        this.wanderAngle = radians(random(0, 180));
+        this.wanderDist = radians(random(70, 100));
+    };  
     var bulletObj = function(x, y) {
         this.position = new PVector(x, y); 
         this.dir = new PVector(0, 0); 
@@ -745,6 +748,23 @@ frameRate(60);
             if (this.speed < 0) { this.speed = -this.speed }
         }
     };
+    
+    alienObj.prototype.wander = function() {
+            this.step.set(cos(this.wanderAngle), sin(this.wanderAngle));
+            this.x += this.step.x;
+            this.y += this.step.y;
+            this.wanderAngle += radians(random(-30, 30));
+            this.wanderDist--;
+            if (this.wanderDist < 0) {
+                this.wanderDist = random(70, 100);
+                this.wanderAngle += radians(random(-90, 90));
+            }
+                    
+            if (this.x > 420) {this.x = -20;}
+            else if (this.x < -20) {this.x = 420;}
+            if (this.y > 420) {this.y = -20;}
+            else if (this.y < -20) {this.y = 420;}
+        };
 
     particleObj.prototype.move = function() {
         var v = new PVector(this.velocity.y*cos(this.velocity.x),
@@ -846,6 +866,10 @@ frameRate(60);
             if(!p.background){
                 return;
             }
+            
+            // Draw alien
+            alien1.draw();
+            alien1.wander();
             
             p.background(0);
             p.angleMode="degrees";
