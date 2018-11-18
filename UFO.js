@@ -535,7 +535,7 @@ frameRate(60);
     snowflakeType.prototype.move = function() {
         for (var i=0; i<snowflakes.length; i++) {
             //snowflakes[i].x -= 0.25;
-            snowflakes[i].y += random(0, 0.03);
+            snowflakes[i].y += 0.03;
             if (snowflakes[i].y < -50) { snowflakes[i].y += 500;}
             if (snowflakes[i].y > 450) { snowflakes[i].y -= 500;}
     }
@@ -968,10 +968,10 @@ frameRate(60);
                 drawBackground();
                 
                 // Snow Fall
-                /*for (var i=0; i<snowflakes.length; i++) {
+                for (var i=0; i<snowflakes.length / 2; i++) {
                     snowflakes[i].move();
                     snowflakes[i].draw();
-                }*/
+                }
                 displayTilemap();
                 
                 // Display hero and make him move
