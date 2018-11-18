@@ -22,8 +22,8 @@ frameRate(60);
         "                              ",
         "                              ",
         "                              ",
-        "      w                       ",
-        "     www                      ",
+        "                              ",
+        "                              ",
         "wwwwwwwwwwwwwwwwwwwwwwwwwwwwww"];
 
     var gamestate = 0;  // Main menu
@@ -607,6 +607,14 @@ frameRate(60);
     }
     };
 
+    var resetGame = function() {
+        hero.hits = 10; 
+        level1_count = 0;
+        aliens[0].state = 0; 
+        aliens[0].x += 700;
+        aliens[0].hits = 5; 
+    };
+
     mouseClicked = function() {
         // Difficulty menu
         if(gamestate === 3) {
@@ -630,7 +638,7 @@ frameRate(60);
             for(var i = 0; i < mainmenubuttons.length; i++) {
                 if((abs(mainmenubuttons[i].position.x - mouseX) <= 60) && (abs(mainmenubuttons[i].position.y - mouseY) <= 20)) {
                     switch(i) {
-                        case 0: gamestate = 1; break;
+                        case 0: gamestate = 1; resetGame(); break;
                         case 1: gamestate = 2; break;
                         case 2: gamestate = 3; break;
                     }
@@ -644,12 +652,17 @@ frameRate(60);
                 switch(ingamestate) {
                     case 0: ingamestate = 1; break;
                     case 1: ingamestate = 0; break;
+                    case 3: ingamestate = 1; break;
                 }
             }
             else if((abs(quit.position.x - mouseX) <= 60) && (abs(quit.position.y - mouseY) <= 20)) {
                 ingamestate = 0;
                 gamestate = 0;
             }
+            else if ((abs(controls.position.x - mouseX) <= 60) && (abs(controls.position.y - mouseY) <= 20)) {
+                ingamestate = 3;
+            }
+            
             // in game bullet updates
             if (bullet.state === 0) {
                 bullet.dir.set(((mouseX + -scrollval.x) - (bullet.position.x + 20)) / 15, (mouseY - (bullet.position.y - 48)) / 15); 
@@ -745,7 +758,7 @@ frameRate(60);
             this.state = 0; 
             this.x += 750; 
             this.hits = 5;
-            
+            level1_count++;
             if (this.speed < 0) { this.speed = -this.speed }
         }
         
@@ -933,6 +946,18 @@ frameRate(60);
                     ingamemenubuttons[i].draw();   
                 }
             }
+            else if (ingamestate === 2) {
+                textSize(30); 
+                text("You died", 140, 70, 1000, 1000); 
+                for(var i = 0; i < ingamemenubuttons.length; i++) {
+                    ingamemenubuttons[i].draw();   
+                }
+            }
+            else if (ingamestate === 3) {
+                textSize(20); 
+                fill(30, 30, 30); 
+                text("Use WASD to move the Drone around. Click the left mouse button to fire.", 80, 100, 250, 200); 
+            }
             else {
                 if(initialized === 0) {
                     initializeTilemap();
@@ -940,7 +965,7 @@ frameRate(60);
                 }
                 translate(scrollval.x, scrollval.y);
                 // Mountains
-                //drawBackground();
+                drawBackground();
                 
                 // Snow Fall
                 /*for (var i=0; i<snowflakes.length; i++) {
@@ -990,9 +1015,17 @@ frameRate(60);
                 text("Destroyed", 250 + abs(scrollval.x), 10, 100, 100); 
                 text(level1_count, 320 + abs(scrollval.x), 10, 100, 100); 
                 text("/ 5 Aliens", 330 + abs(scrollval.x), 10, 1000, 100); 
+                if (level1_count >= 5) {
+                    text("You have completed Level 1. Level 2 is coming soon, continue playing for now.", 250 + abs(scrollval.x), 25, 150, 100);
+                }
 
                 fill(230, 0, 0);
                 rect(300 + abs(scrollval.x), 380, 7*hero.hits, 10); 
+
+                // died case 
+                if (hero.hits === 0) {
+                    ingamestate = 2; 
+                }
             }
         }
         // Instructions
