@@ -865,11 +865,7 @@ frameRate(60);
         if(gamestate === 0) {
             if(!p.background){
                 return;
-            }
-            
-            // Draw alien
-            alien1.draw();
-            alien1.wander();
+            }            
             
             p.background(0);
             p.angleMode="degrees";
@@ -918,6 +914,10 @@ frameRate(60);
             // names
             textSize(14); 
             text("Designed by Michael Pocta and David Toussaint", 50, 382, 1000, 50);
+            
+            // Draw alien
+            alien1.draw();
+            alien1.wander();
         }
         // Gameplay
         else if(gamestate === 1) {
