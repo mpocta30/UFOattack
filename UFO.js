@@ -194,7 +194,7 @@ frameRate(60);
     // }
 
     // Creating background snowflakes
-    for (var i= 0; i<200; i++) {
+    for (var i= 0; i<50; i++) {
         snowflakes.push(new snowflakeType());
         
     }
@@ -968,7 +968,7 @@ frameRate(60);
                 drawBackground();
                 
                 // Snow Fall
-                for (var i=0; i<snowflakes.length / 2; i++) {
+                for (var i=0; i<snowflakes.length; i++) {
                     snowflakes[i].move();
                     snowflakes[i].draw();
                 }
