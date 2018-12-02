@@ -684,6 +684,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             if (dist(this.x + 17, this.y + 17, hero.position.x + 10, hero.position.y + 10) < 30) {
                 this.show = 0; 
                 power_double = 1; 
+                power_rapid = 0; // only one power active at once 
             }
         };
         heroObj.prototype.move = function() {
@@ -920,7 +921,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 }
             }
             // if hit five times, transition back to state 0 
-            if (this.hits === 0) {
+            if (this.hits <= 0) {
                 // generate explosion
                 for (var i = 0; i < 200; i++) {
                     particles.push(new particleObj(this.x + 40, this.y + 140));
@@ -1006,10 +1007,13 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 if ((dist(aliens[i].x + 39, aliens[i].y + 107, this.position.x, this.position.y) < 50 ||
                         dist(15 + aliens[i].x, 150 + aliens[i].y, this.position.x, this.position.y) < 40 ||
                         dist(75 + aliens[i].x, 150 + aliens[i].y, this.position.x, this.position.y) < 40) && this.show === 1) {
-                    aliens[i].hits--;
+                    if (power_double === 0) {
+                        aliens[i].hits--;
+                    }
+                    else if (power_double === 1) {
+                        aliens[i].hits -= 2; 
+                    }
                     this.show = 0;  
-    
-                    
                 }
                 // draw hitboxes
                 //fill(255, 0, 0); 
