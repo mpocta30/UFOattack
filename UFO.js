@@ -124,9 +124,10 @@ frameRate(60);
         this.c2 = random(0, 255);
         this.timeLeft = 100;
     };
-    var crate2 = function() {
+    var crate2Obj = function() {
         this.x = 0; 
         this.y = 0; 
+        this.show = 0; 
     };
 
 
@@ -568,7 +569,7 @@ frameRate(60);
     };
 
     // double damage crate
-    crate2.prototype.draw = function() {
+    crate2Obj.prototype.draw = function() {
         noStroke();
         fill(153, 153, 153);
         rect(this.x, this.y, 35, 35, 7); 
@@ -597,6 +598,18 @@ frameRate(60);
             if (snowflakes[i].y < -50) { snowflakes[i].y += 500;}
             if (snowflakes[i].y > 450) { snowflakes[i].y -= 500;}
     }
+    };
+    crate2Obj.prototype.move = function() {
+        if (this.y < (360 - 35) && this.show === 1) {
+            this.y += 4; 
+        }
+        else if (this.show === 1) {
+            
+        }
+        else {
+            this.x = aliens[0].x + 40; 
+            this.y = aliens[0].y + 140; 
+        }
     };
     heroObj.prototype.move = function() {
         this.acceleration.set(0, 0);
@@ -811,6 +824,8 @@ frameRate(60);
         bezier(20 + this.x, 130 + this.y, -20 + this.x, 10 + this.y, 100 + this.x, 10 + this.y, 60 + this.x, 130 + this.y); 
     };
 
+    var crate2 = new crate2Obj(); 
+
     alienObj.prototype.move = function() {
         // fly in state 
         if (this.state === 0) {
@@ -842,6 +857,11 @@ frameRate(60);
             if (this.speed < 0) { this.speed = -this.speed }
 
             // random chance of dropping crate 
+            //var chance = random(0, 8); 
+            var chance = 2; 
+            if (chance === 2) {
+                crate2.show = 1; 
+            }
         }
         
     };
@@ -1106,6 +1126,12 @@ frameRate(60);
                 }
 
                 redScreen(); 
+
+                // loot crates 
+                crate2.move(); 
+                if (crate2.show === 1) {
+                    crate2.draw(); 
+                }
 
                 //fill(255, 0, 0);
                 //text(aliens[0].x, 100, 100, 100, 100); 
