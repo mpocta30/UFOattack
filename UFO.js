@@ -374,64 +374,64 @@ frameRate(60);
         ellipse(this.x, this.y, this.size, this.size);
     };
 
-    // Draw level background
-    var drawBackground = function() {
-        // Size of tilemap determines how many mountains in background
-        for(var i = 0; i < background_width; i++) {
-            stroke(0);
-            fill(104, 118, 129);
-            arc(i*400+80, 400, 177, 460, radians(180), radians(360));
-            arc(i*400+320, 400, 177, 460, radians(180), radians(360));
-            noStroke();
-            fill(255, 255, 255);
-            arc(i*400+80, 205, 96, 73, radians(180), radians(360));
-            arc(i*400+320, 205, 96, 73, radians(180), radians(360));
-            
-            arc(i*400+53, 205, floor(217/5), floor(209/5), 0, radians(180));
-            arc(i*400+80, 205, floor(217/5), floor(209/5), 0, radians(180));
-            arc(i*400+107, 205, floor(217/5), floor(209/5), 0, radians(180));
-            fill(165, 242, 243);
-            arc(i*400+53, 205, floor(180/5), floor(177/5), 0, radians(180));
-            arc(i*400+80, 205, floor(180/5), floor(177/5), 0, radians(180));
-            arc(i*400+107, 205, floor(180/5), floor(177/5), 0, radians(180));
-            fill(255, 255, 255);
-            arc(i*400+53, 205, floor(190/5), floor(144/5), 0, radians(180));
-            arc(i*400+80, 205, floor(190/5), floor(144/5), 0, radians(180));
-            arc(i*400+107, 205, floor(190/5), floor(144/5), 0, radians(180));
-            
-            arc(i*400+240+53, 205, floor(217/5), floor(209/5), 0, radians(180));
-            arc(i*400+240+80, 205, floor(217/5), floor(209/5), 0, radians(180));
-            arc(i*400+240+107, 205, floor(217/5), floor(209/5), 0, radians(180));
-            fill(165, 242, 243);
-            arc(i*400+240+53, 205, floor(180/5), floor(177/5), 0, radians(180));
-            arc(i*400+240+80, 205, floor(180/5), floor(177/5), 0, radians(180));
-            arc(i*400+240+107, 205, floor(180/5), floor(177/5), 0, radians(180));
-            fill(255, 255, 255);
-            arc(i*400+240+53, 205, floor(190/5), floor(144/5), 0, radians(180));
-            arc(i*400+240+80, 205, floor(190/5), floor(144/5), 0, radians(180));
-            arc(i*400+240+107, 205, floor(190/5), floor(144/5), 0, radians(180));
-            
-            stroke(0);
-            fill(104, 118, 129);
-            arc(i*400+200, 400, 204, 636, radians(180), radians(360));
-            noStroke();
-            fill(255, 255, 255);
-            arc(i*400+200, 130, 107, 97, radians(180), radians(360));
-            fill(255, 255, 255);
-            
-            arc(i*400+115+53, 130, floor(217/5), floor(209/5), 0, radians(180));
-            arc(i*400+120+80, 130, floor(217/5), floor(209/5), 0, radians(180));
-            arc(i*400+125+107, 130, floor(217/5), floor(209/5), 0, radians(180));
-            fill(165, 242, 243);
-            arc(i*400+115+53, 130, floor(180/5), floor(177/5), 0, radians(180));
-            arc(i*400+120+80, 130, floor(180/5), floor(177/5), 0, radians(180));
-            arc(i*400+125+107, 130, floor(180/5), floor(177/5), 0, radians(180));
-            fill(255, 255, 255);
-            arc(i*400+115+53, 130, floor(190/5), floor(144/5), 0, radians(180));
-            arc(i*400+120+80, 130, floor(190/5), floor(144/5), 0, radians(180));
-            arc(i*400+125+107, 130, floor(190/5), floor(144/5), 0, radians(180));
-        }
-    };
+     // Draw level background
+        var drawBackground = function() {
+            // Size of tilemap determines how many mountains in background
+            for(var i = 0; i < background_width; i++) {
+                stroke(0);
+                fill(104, 118, 129);
+                arc(i*400+80, 400, 177, 460, radians(180), radians(360));
+                arc(i*400+320, 400, 177, 460, radians(180), radians(360));
+                noStroke();
+                fill(255, 255, 255);
+                arc(i*400+80, 205, 96, 73, radians(180), radians(360));
+                arc(i*400+320, 205, 96, 73, radians(180), radians(360));
+                
+                arc(i*400+53, 205, 43, 41, 0, radians(180));
+                arc(i*400+80, 205, 43, 41, 0, radians(180));
+                arc(i*400+107, 205, 43, 41, 0, radians(180));
+                fill(165, 242, 243);
+                arc(i*400+53, 205, 36, 35, 0, radians(180));
+                arc(i*400+80, 205, 36, 35, 0, radians(180));
+                arc(i*400+107, 205, 36, 35, 0, radians(180));
+                fill(255, 255, 255);
+                arc(i*400+53, 205, 38, 28, 0, radians(180));
+                arc(i*400+80, 205, 38, 28, 0, radians(180));
+                arc(i*400+107, 205, 38, 28, 0, radians(180));
+                
+                arc(i*400+240+53, 205, 43, 41, 0, radians(180));
+                arc(i*400+240+80, 205, 43, 41, 0, radians(180));
+                arc(i*400+240+107, 205, 43, 41, 0, radians(180));
+                fill(165, 242, 243);
+                arc(i*400+240+53, 205, 36, 35, 0, radians(180));
+                arc(i*400+240+80, 205, 36, 35, 0, radians(180));
+                arc(i*400+240+107, 205, 36, 35, 0, radians(180));
+                fill(255, 255, 255);
+                arc(i*400+240+53, 205, 38, 28, 0, radians(180));
+                arc(i*400+240+80, 205, 38, 28, 0, radians(180));
+                arc(i*400+240+107, 205, 38, 28, 0, radians(180));
+                
+                stroke(0);
+                fill(104, 118, 129);
+                arc(i*400+200, 400, 204, 636, radians(180), radians(360));
+                noStroke();
+                fill(255, 255, 255);
+                arc(i*400+200, 130, 107, 97, radians(180), radians(360));
+                fill(255, 255, 255);
+                
+                arc(i*400+115+53, 130, 43, 41, 0, radians(180));
+                arc(i*400+120+80, 130, 43, 41, 0, radians(180));
+                arc(i*400+125+107, 130, 43, 41, 0, radians(180));
+                fill(165, 242, 243);
+                arc(i*400+115+53, 130, 36, 35, 0, radians(180));
+                arc(i*400+120+80, 130, 36, 35, 0, radians(180));
+                arc(i*400+125+107, 130, 36, 35, 0, radians(180));
+                fill(255, 255, 255);
+                arc(i*400+115+53, 130, 38, 28, 0, radians(180));
+                arc(i*400+120+80, 130, 38, 28, 0, radians(180));
+                arc(i*400+125+107, 130, 38, 28, 0, radians(180));
+            }
+        };
 
     // Tilemap functions
     var initializeTilemap = function () {
@@ -1037,13 +1037,13 @@ frameRate(60);
                 }
                 translate(scrollval.x, scrollval.y);
                 // Mountains
-                //drawBackground();
+                drawBackground();
                 
                 // Snow Fall
-                /*for (var i=0; i<snowflakes.length; i++) {
+                for (var i=0; i<snowflakes.length; i++) {
                     snowflakes[i].move();
                     snowflakes[i].draw();
-                }*/
+                }
                 displayTilemap();
                 
                 // Display hero and make him move
