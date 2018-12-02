@@ -20,7 +20,7 @@ frameRate(60);
         "                              ",
         "                              ",
         "                              ",
-        "                  New Program            ",
+        "                              ",
         "                              ",
         "                              ",
         "                              ",
@@ -46,6 +46,7 @@ frameRate(60);
     var initialized = 0;
     var scrollval = new PVector(0, 0);
     var level1_count = 0; 
+    var redFrame = -10; 
 
     // Forces
     var gravity = new PVector(0, 1.5);
@@ -866,6 +867,7 @@ frameRate(60);
                 dist(hero.position.x + 30, hero.position.y - 20, this.position.x, this.position.y) < 30) && this.show === 1) {
                 if (hero.hits > 0) {
                     hero.hits--; 
+                    redFrame = frameCount; 
                 }
                 this.show = 0; 
             }
@@ -875,6 +877,14 @@ frameRate(60);
                 this.state = 0; 
             }
         }
+    };
+
+    var redScreen = function() {
+        if (frameCount - redFrame < 10) {
+            fill(255, 0, 0, 90); 
+            rect(-10 + -scrollval.x, -10, 410, 410);
+        }
+
     };
     
 
@@ -965,13 +975,13 @@ frameRate(60);
                 }
                 translate(scrollval.x, scrollval.y);
                 // Mountains
-                drawBackground();
+                //drawBackground();
                 
                 // Snow Fall
-                for (var i=0; i<snowflakes.length; i++) {
+                /*for (var i=0; i<snowflakes.length; i++) {
                     snowflakes[i].move();
                     snowflakes[i].draw();
-                }
+                }*/
                 displayTilemap();
                 
                 // Display hero and make him move
@@ -1005,6 +1015,8 @@ frameRate(60);
                         particles.splice(i, 1);
                     }
                 }
+
+                redScreen(); 
 
                 //fill(255, 0, 0);
                 //text(aliens[0].x, 100, 100, 100, 100); 
