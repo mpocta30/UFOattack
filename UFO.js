@@ -52,6 +52,10 @@ var sketchProc=function(processingInstance){ with (processingInstance){
         var scrollval = new PVector(0, 0);
         var level1_count = 0; 
         var redFrame = -10; 
+
+        // power ups 
+        var power_double = 0; 
+        var power_rapid = 0; 
     
         // Forces
         var gravity = new PVector(0, 1.5);
@@ -676,6 +680,10 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             else {
                 this.x = aliens[0].x + 40; 
                 this.y = aliens[0].y + 140; 
+            }
+            if (dist(this.x + 17, this.y + 17, hero.position.x + 10, hero.position.y + 10) < 30) {
+                this.show = 0; 
+                power_double = 1; 
             }
         };
         heroObj.prototype.move = function() {
