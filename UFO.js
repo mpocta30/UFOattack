@@ -26,6 +26,10 @@ frameRate(60);
         "                              ",
         "wwwwwwwwwwwwwwwwwwwwwwwwwwwwww"];
 
+
+    /************************************
+     *  GLOBAL VARIABLES
+     */
     var gamestate = 0;  // Main menu
     var difficultyval = 0; // Beginner
     var ingamestate = 0;
@@ -52,6 +56,9 @@ frameRate(60);
     var gravity = new PVector(0, 1.5);
     var jumpForce = new PVector(0, -12);
 
+    /************************************
+     *  OBJECT DECLARATIONS
+     */
     // Button, background, and tilemap objects
     var menuButtonObj = function(x, y, text) {
         this.position = new PVector(x, y);
