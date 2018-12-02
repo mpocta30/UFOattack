@@ -124,7 +124,12 @@ frameRate(60);
         this.c2 = random(0, 255);
         this.timeLeft = 100;
     };
-    
+    var crate2 = function() {
+        this.x = 0; 
+        this.y = 0; 
+    };
+
+
     var particles = [];
 
     // // Used to randomly choose colors for bricks
@@ -562,6 +567,28 @@ frameRate(60);
         ellipse(this.x, this.y, this.size, this.size);
     };
 
+    // double damage crate
+    crate2.prototype.draw = function() {
+        noStroke();
+        fill(153, 153, 153);
+        rect(this.x, this.y, 35, 35, 7); 
+        fill(0, 0, 0);
+        rect(this.x, this.y + 5, 35, 7);
+        fill(255, 234, 0);
+        rect(this.x + 3, this.y + 5, 4, 7); 
+        rect(this.x + 11, this.y + 5, 4, 7); 
+        rect(this.x + 19, this.y + 5, 4, 7); 
+        rect(this.x + 27, this.y + 5, 4, 7); 
+        fill(153, 153, 153);
+        rect(this.x + 15, this.y + 3, 4, 4); 
+    
+        fill(43, 43, 43);
+        textSize(19); 
+        text('2x', this.x + 6, this.y + 15, 40, 40); 
+    
+    
+    };
+
     // Move Functions
     snowflakeType.prototype.move = function() {
         for (var i=0; i<snowflakes.length; i++) {
@@ -735,55 +762,53 @@ frameRate(60);
     };
 
     alienObj.prototype.draw = function() {
-        
-
-    // alien body 
-    fill(142, 0, 219);
-    bezier(30 + this.x, 130 + this.y, 0 + this.x, 35 + this.y, 80 + this.x, 35 + this.y, 50 + this.x, 130 + this.y);
-    bezier(93 + this.x, 122 + this.y, 33 + this.x, 180 + this.y, 82 + this.x, 156 + this.y, 93 + this.x, 122 + this.y); 
-    bezier(40 - 53 + this.x, 122 + this.y, 47 + this.x, 180 + this.y, 40 - 42 + this.x, 156 + this.y, 40 - 53 + this.x, 122 + this.y); 
+        // alien body 
+        fill(142, 0, 219);
+        bezier(30 + this.x, 130 + this.y, 0 + this.x, 35 + this.y, 80 + this.x, 35 + this.y, 50 + this.x, 130 + this.y);
+        bezier(93 + this.x, 122 + this.y, 33 + this.x, 180 + this.y, 82 + this.x, 156 + this.y, 93 + this.x, 122 + this.y); 
+        bezier(40 - 53 + this.x, 122 + this.y, 47 + this.x, 180 + this.y, 40 - 42 + this.x, 156 + this.y, 40 - 53 + this.x, 122 + this.y); 
 
 
-    // eye 
-    fill(94, 255, 0);
-    ellipse(40 + this.x, 88 + this.y, 20, 16); 
-    // fangs 
-    noStroke(); 
+        // eye 
+        fill(94, 255, 0);
+        ellipse(40 + this.x, 88 + this.y, 20, 16); 
+        // fangs 
+        noStroke(); 
 
-    fill(255, 255, 255);
-    triangle(34 + this.x, 110 + this.y, 38 + this.x, 110 + this.y, 36 + this.x, 120 + this.y); 
-    triangle(41 + this.x, 110 + this.y, 45 + this.x, 110 + this.y, 43 + this.x, 120 + this.y); 
-    fill(255, 0, 0);
-    // eyeball 
-    triangle(40 + this.x, 82 + this.y, 38 + this.x, 88 + this.y, 42 + this.x, 88 + this.y); 
-    triangle(40 + this.x, 94 + this.y, 38 + this.x, 88 + this.y, 42 + this.x, 88 + this.y); 
-    stroke(0, 0, 0);
-    // ship body 
-    fill(87, 87, 87);
-    rect(15 + this.x, 130 + this.y, 49, 10, 5); 
+        fill(255, 255, 255);
+        triangle(34 + this.x, 110 + this.y, 38 + this.x, 110 + this.y, 36 + this.x, 120 + this.y); 
+        triangle(41 + this.x, 110 + this.y, 45 + this.x, 110 + this.y, 43 + this.x, 120 + this.y); 
+        fill(255, 0, 0);
+        // eyeball 
+        triangle(40 + this.x, 82 + this.y, 38 + this.x, 88 + this.y, 42 + this.x, 88 + this.y); 
+        triangle(40 + this.x, 94 + this.y, 38 + this.x, 88 + this.y, 42 + this.x, 88 + this.y); 
+        stroke(0, 0, 0);
+        // ship body 
+        fill(87, 87, 87);
+        rect(15 + this.x, 130 + this.y, 49, 10, 5); 
 
-    fill(178, 255, 245, 75);
-    triangle(63 + this.x, 145 + this.y, 93 + this.x, 146 + this.y, 95 + this.x, 115 + this.y); 
-    triangle(40 - 23 + this.x, 145 + this.y, 40 - 53 + this.x, 146 + this.y, 40 - 55 + this.x, 115 + this.y);  
-    // ship lower body 
-    fill(163, 163, 163);
-    ellipse(40 + this.x, 156 + this.y, 155, 31); 
-    fill(87, 87, 87);
-    rect(-1 + this.x, 146 + this.y, 5, 5); 
-    rect(-1 + this.x, 156 + this.y, 5, 5); 
-    rect(9 + this.x, 156 + this.y, 5, 5); 
-    noStroke();
-    fill(255, 0, 0);
-    ellipse(12 + this.x, 159 + this.y, 3, 3); 
-    fill(13, 255, 0);
-    ellipse(2 + this.x, 159 + this.y, 3, 3); 
+        fill(178, 255, 245, 75);
+        triangle(63 + this.x, 145 + this.y, 93 + this.x, 146 + this.y, 95 + this.x, 115 + this.y); 
+        triangle(40 - 23 + this.x, 145 + this.y, 40 - 53 + this.x, 146 + this.y, 40 - 55 + this.x, 115 + this.y);  
+        // ship lower body 
+        fill(163, 163, 163);
+        ellipse(40 + this.x, 156 + this.y, 155, 31); 
+        fill(87, 87, 87);
+        rect(-1 + this.x, 146 + this.y, 5, 5); 
+        rect(-1 + this.x, 156 + this.y, 5, 5); 
+        rect(9 + this.x, 156 + this.y, 5, 5); 
+        noStroke();
+        fill(255, 0, 0);
+        ellipse(12 + this.x, 159 + this.y, 3, 3); 
+        fill(13, 255, 0);
+        ellipse(2 + this.x, 159 + this.y, 3, 3); 
 
 
 
-    // glass dome 
-    stroke(0, 0, 0);
-    fill(178, 255, 245, 75);
-    bezier(20 + this.x, 130 + this.y, -20 + this.x, 10 + this.y, 100 + this.x, 10 + this.y, 60 + this.x, 130 + this.y); 
+        // glass dome 
+        stroke(0, 0, 0);
+        fill(178, 255, 245, 75);
+        bezier(20 + this.x, 130 + this.y, -20 + this.x, 10 + this.y, 100 + this.x, 10 + this.y, 60 + this.x, 130 + this.y); 
     };
 
     alienObj.prototype.move = function() {
@@ -815,6 +840,8 @@ frameRate(60);
             this.hits = 5;
             level1_count++;
             if (this.speed < 0) { this.speed = -this.speed }
+
+            // random chance of dropping crate 
         }
         
     };
@@ -882,8 +909,8 @@ frameRate(60);
         // check collisions with bullets 
         for (var i = 0; i < aliens.length; i++) {
             if ((dist(aliens[i].x + 39, aliens[i].y + 107, this.position.x, this.position.y) < 50 ||
-                    dist(15 + aliens[i].x, 130 + aliens[i].y, this.position.x, this.position.y) < 30 ||
-                    dist(75 + aliens[i].x, 140 + aliens[i].y, this.position.x, this.position.y) < 30) && this.show === 1) {
+                    dist(15 + aliens[i].x, 150 + aliens[i].y, this.position.x, this.position.y) < 40 ||
+                    dist(75 + aliens[i].x, 150 + aliens[i].y, this.position.x, this.position.y) < 40) && this.show === 1) {
                 aliens[i].hits--;
                 this.show = 0;  
 
