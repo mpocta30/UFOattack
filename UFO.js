@@ -20,7 +20,7 @@ frameRate(60);
         "                              ",
         "                              ",
         "                              ",
-        "                              ",
+        "                  New Program            ",
         "                              ",
         "                              ",
         "                              ",
@@ -655,11 +655,11 @@ frameRate(60);
                     case 3: ingamestate = 1; break;
                 }
             }
-            else if((abs(quit.position.x - mouseX) <= 60) && (abs(quit.position.y - mouseY) <= 20)) {
+            else if((abs(quit.position.x - mouseX) <= 60) && (abs(quit.position.y - mouseY) <= 20) && ingamestate === 1) {
                 ingamestate = 0;
                 gamestate = 0;
             }
-            else if ((abs(controls.position.x - mouseX) <= 60) && (abs(controls.position.y - mouseY) <= 20)) {
+            else if ((abs(controls.position.x - mouseX) <= 60) && (abs(controls.position.y - mouseY) <= 20) && ingamestate === 1) {
                 ingamestate = 3;
             }
             
