@@ -882,10 +882,18 @@ frameRate(60);
         // check collisions with bullets 
         for (var i = 0; i < aliens.length; i++) {
             if ((dist(aliens[i].x + 39, aliens[i].y + 107, this.position.x, this.position.y) < 50 ||
-                    dist(15 + aliens[i].x, 130 + aliens[i].y, this.position.x, this.position.y) < 30) && this.show === 1) {
+                    dist(15 + aliens[i].x, 130 + aliens[i].y, this.position.x, this.position.y) < 30 ||
+                    dist(75 + aliens[i].x, 140 + aliens[i].y, this.position.x, this.position.y) < 30) && this.show === 1) {
                 aliens[i].hits--;
                 this.show = 0;  
+
+                
             }
+            // draw hitboxes
+            //fill(255, 0, 0); 
+            //ellipse(aliens[i].x + 39, aliens[i].y + 107, 50, 50); 
+            //ellipse(aliens[i].x + 15, aliens[i].y + 140, 30, 30); 
+            //ellipse(aliens[i].x + 75, aliens[i].y + 140, 30, 30);
         }
     };
 
