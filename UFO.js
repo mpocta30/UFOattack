@@ -40,7 +40,10 @@ frameRate(60);
         fh: loadFont("FederationHull",20),
     }; 
     var stars = [];
-    var walls = [];
+    var snowwalls = [];
+    var junglewalls = [];
+    var lavawalls = [];
+    var moonwalls = [];
     var bricks = [];
     var snowflakes = [];
     var keyArray = [];
