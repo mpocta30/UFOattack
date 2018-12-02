@@ -78,10 +78,25 @@ frameRate(60);
         this.y = random(-50, 450);
         this.size = random(1, 3);
     };   
-    var wallObj = function(x, y) {
+    
+    // Wall Objects
+    var snowwallObj = function(x, y) {
         this.x = x;
         this.y = y;
     };
+    var junglewallObj = function(x, y) {
+        this.x = x;
+        this.y = y;
+    };
+    var lavawallObj = function(x, y) {
+        this.x = x;
+        this.y = y;
+    };
+    var moonwallObj = function(x, y) {
+        this.x = x;
+        this.y = y;
+    };
+    
     var snowflakeType = function() {
         this.x = random(-50, 400*background_width + 50);
         this.y = random(-50, 450);
@@ -438,7 +453,10 @@ frameRate(60);
         for (var i=0; i<tileMap.length; i++) {
             for (var j=0; j<tileMap[i].length; j++) {
                 if (tileMap[i][j] === 'w') {
-                    walls.push(new wallObj(j*40, i*40));               
+                    snowwalls.push(new snowwallObj(j*40, i*40));
+                    junglewalls.push(new junglewallObj(j*40, i*40)); 
+                    lavawalls.push(new lavawallObj(j*40, i*40));    
+                    moonwalls.push(new moonwallObj(j*40, i*40));               
                 }
             }
         }
@@ -449,22 +467,71 @@ frameRate(60);
         }
     };
 
-    wallObj.prototype.draw = function() {
+    snowwallObj.prototype.draw = function() {
         noStroke();
         fill(104, 118, 129);
         rect(this.x, this.y, 40, 40);
         fill(255, 255, 255);
-        arc(this.x+floor(0/10), this.y+floor(0/10), floor(217/10), floor(209/10), 0, radians(90));
-        arc(this.x+floor(200/10), this.y+floor(0/10), floor(217/10), floor(209/10), 0, radians(180));
-        arc(this.x+floor(400/10), this.y+floor(0/10), floor(217/10), floor(209/10), radians(90), radians(180));
+        arc(this.x, this.y, 21, 20, 0, radians(90));
+        arc(this.x+20, this.y, 21, 20, 0, radians(180));
+        arc(this.x+40, this.y, 21, 20, radians(90), radians(180));
         fill(165, 242, 243);
-        arc(this.x+floor(0/10), this.y+floor(0/10), floor(180/10), floor(177/10), 0, radians(90));
-        arc(this.x+floor(200/10), this.y+floor(0/10), floor(180/10), floor(177/10), 0, radians(180));
-        arc(this.x+floor(400/10), this.y+floor(0/10), floor(180/10), floor(177/10), radians(90), radians(180));
+        arc(this.x, this.y, 18, 17, 0, radians(90));
+        arc(this.x+20, this.y, 18, 17, 0, radians(180));
+        arc(this.x+40, this.y, 18, 17, radians(90), radians(180));
         fill(255, 255, 255);
-        arc(this.x+floor(0/10), this.y+floor(0/10), floor(190/10), floor(144/10), 0, radians(90));
-        arc(this.x+floor(200/10), this.y+floor(0/10), floor(190/10), floor(144/10), 0, radians(180));
-        arc(this.x+floor(400/10), this.y+floor(0/10), floor(190/10), floor(144/10), radians(90), radians(180));
+        arc(this.x, this.y, 19, 14, 0, radians(90));
+        arc(this.x+20, this.y, 19, 14, 0, radians(180));
+        arc(this.x+40, this.y, 19, 14, radians(90), radians(180));
+    };
+
+    junglewallObj.prototype.draw = function() {
+        noStroke(); 
+        fill(105, 105, 105);
+        rect(this.x, this.y, 40, 40); 
+        fill(153, 153, 153);
+        rect(this.x + 10, this.y + 10, 20, 20); 
+        stroke(0, 0, 0);
+        line(this.x, this.y, this.x+7, this.y+5); 
+        line(this.x+7, this.y+5, this.x+7, this.y+12); 
+        line(this.x+7, this.y+5, this.x+19, this.y+6); 
+        line(this.x+19, this.y+6, this.x+23, this.y+2); 
+        line(this.x+7, this.y+12, this.x+5, this.y+13); 
+        line(this.x+7, this.y+12, this.x+13, this.y+15); 
+    };
+
+    lavawallObj.prototype.draw = function() {
+        noStroke(); 
+        fill(102, 102, 102);
+        rect(this.x, this.y, 40, 40); 
+        fill(82, 82, 82, 90);
+        rect(this.x, this.y + 10, 40, 30); 
+        fill(66, 66, 66, 90);
+        rect(this.x, this.y + 20, 40, 20); 
+        fill(40, 40, 40, 90);
+        rect(this.x, this.y + 30, 40, 10); 
+        fill(255, 234, 3);
+        arc(this.x + 20, this.y, 39, 19, radians(0), radians(180)); 
+        fill(171, 0, 0);
+        arc(this.x + 20, this.y, 37, 16, radians(0), radians(180)); 
+    };
+
+    moonwallObj.prototype.draw = function() {
+        noStroke(); 
+        fill(102, 102, 102);
+        rect(this.x, this.y, 40, 40); 
+
+        // match the color below to background
+        fill(255, 255, 255, 100);
+        arc(this.x, this.y, 7, 4, radians(0), radians(90)); 
+        arc(this.x + 20, this.y, 10, 6, radians(0), radians(180)); 
+        arc(this.x + 30, this.y, 7, 3, radians(0), radians(180)); 
+        arc(this.x + 40, this.y, 7, 4, radians(90), radians(180)); 
+
+
+        ellipse(this.x + 13, this.y + 11, 7, 7); 
+        ellipse(this.x + 26, this.y + 21, 11, 11); 
+
     };
 
     armObj.prototype.draw = function(ang) {
