@@ -881,12 +881,12 @@ frameRate(60);
                         case 3: ingamestate = 1; break;
                     }
                 }
-                else if((abs(quit.position.x - mouseX) <= 60) && (abs(quit.position.y - mouseY) <= 20) && ingamestate === 1) {
+                else if((abs(quit.position.x - mouseX) <= 60) && (abs(quit.position.y - mouseY) <= 20) && ingamestate !== 0) {
                     curr_level = 0;
                     ingamestate = 0;
                     gamestate = 0;
                 }
-                else if((abs(levels.position.x - mouseX) <= 60) && (abs(levels.position.y - mouseY) <= 20) && ingamestate === 1) {
+                else if((abs(levels.position.x - mouseX) <= 60) && (abs(levels.position.y - mouseY) <= 20) && ingamestate !== 0) {
                     curr_level = 0;
                     ingamestate = 0;
                     gamestate = 4;
