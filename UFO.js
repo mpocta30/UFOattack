@@ -53,6 +53,10 @@ frameRate(60);
     var level1_count = 0; 
     var redFrame = -10; 
 
+    // Power Ups 
+    var power_double = 0;
+    var power_rapid = 0; 
+
     // Forces
     var gravity = new PVector(0, 1.5);
     var jumpForce = new PVector(0, -12);
@@ -672,8 +676,9 @@ frameRate(60);
             snowflakes[i].y += 0.03;
             if (snowflakes[i].y < -50) { snowflakes[i].y += 500;}
             if (snowflakes[i].y > 450) { snowflakes[i].y -= 500;}
-    }
+        }
     };
+    // double damage crate
     crate2Obj.prototype.move = function() {
         if (this.y < (360 - 35) && this.show === 1) {
             this.y += 4; 
@@ -684,6 +689,10 @@ frameRate(60);
         else {
             this.x = aliens[0].x + 40; 
             this.y = aliens[0].y + 140; 
+        }
+        if (dist(hero.position.x, hero.position.y, this.x + 17, this.y + 17) < 50 && this.show === 1) {
+            power_double = 1; 
+            this.show = 0; 
         }
     };
     heroObj.prototype.move = function() {
@@ -1217,6 +1226,7 @@ frameRate(60);
                 text("Destroyed", 250 + abs(scrollval.x), 10, 100, 100); 
                 text(level1_count, 320 + abs(scrollval.x), 10, 100, 100); 
                 text("/ 5 Aliens", 330 + abs(scrollval.x), 10, 1000, 100); 
+                text(power_double, 250 + abs(scrollval.x), 50, 150, 100, 100); 
 
 
                 fill(230, 0, 0);
