@@ -1221,9 +1221,6 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     text("Destroyed", 250 + abs(scrollval.x), 10, 100, 100); 
                     text(level1_count, 320 + abs(scrollval.x), 10, 100, 100); 
                     text("/ 5 Aliens", 330 + abs(scrollval.x), 10, 1000, 100); 
-                    if (level1_count >= 5) {
-                        text("You have completed Level 1. Level 2 is coming soon, continue playing for now.", 250 + abs(scrollval.x), 25, 150, 100);
-                    }
     
                     fill(230, 0, 0);
                     rect(300 + abs(scrollval.x), 380, 7*hero.hits, 10); 
