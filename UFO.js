@@ -462,8 +462,13 @@ frameRate(60);
         }
     };
     var displayTilemap = function() {
-        for (var i =0; i<walls.length; i++) {
-            walls[i].draw();
+        for (var i =0; i<snowwalls.length; i++) {
+            switch(curr_level) {
+                case 1: snowwalls[i].draw(); break;
+                case 2: junglewalls[i].draw(); break;
+                case 3: lavawalls[i].draw(); break;
+                case 4: moonwalls[i].draw(); break;
+            }
         }
     };
 
