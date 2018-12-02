@@ -169,7 +169,7 @@ frameRate(60);
     var lockObj = function(x, y) {
             this.x = x;
             this.y = y;
-            this.locked = true;
+            this.locked = false;
         }
 
     // Apply force to hero
