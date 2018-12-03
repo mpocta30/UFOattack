@@ -27,6 +27,10 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             "                              ",
             "wwwwwwwwwwwwwwwwwwwwwwwwwwwwww"];
     
+        var jungle_back = loadImage("jungle.png");
+        var volcano_back = loadImage("volcano.png");
+        var snow_back = loadImage("glacial_mountains.png");
+    
         var gamestate = 0;  // Main menu
         var difficultyval = 0; // Beginner
         var ingamestate = 0;
@@ -418,60 +422,17 @@ var sketchProc=function(processingInstance){ with (processingInstance){
     
          // Draw level background
             var drawBackground = function() {
-                // Size of tilemap determines how many mountains in background
-                for(var i = 0; i < background_width; i++) {
-                    stroke(0);
-                    fill(104, 118, 129);
-                    arc(i*400+80, 400, 177, 460, PI, 2*PI);
-                    arc(i*400+320, 400, 177, 460, PI, 2*PI);
-                    noStroke();
-                    fill(255, 255, 255);
-                    arc(i*400+80, 205, 96, 73, PI, 2*PI);
-                    arc(i*400+320, 205, 96, 73, PI, 2*PI);
-                    
-                    arc(i*400+53, 205, 43, 41, 0, PI);
-                    arc(i*400+80, 205, 43, 41, 0, PI);
-                    arc(i*400+107, 205, 43, 41, 0, PI);
-                    fill(165, 242, 243);
-                    arc(i*400+53, 205, 36, 35, 0, PI);
-                    arc(i*400+80, 205, 36, 35, 0, PI);
-                    arc(i*400+107, 205, 36, 35, 0, PI);
-                    fill(255, 255, 255);
-                    arc(i*400+53, 205, 38, 28, 0, PI);
-                    arc(i*400+80, 205, 38, 28, 0, PI);
-                    arc(i*400+107, 205, 38, 28, 0, PI);
-                    
-                    arc(i*400+240+53, 205, 43, 41, 0, PI);
-                    arc(i*400+240+80, 205, 43, 41, 0, PI);
-                    arc(i*400+240+107, 205, 43, 41, 0, PI);
-                    fill(165, 242, 243);
-                    arc(i*400+240+53, 205, 36, 35, 0, PI);
-                    arc(i*400+240+80, 205, 36, 35, 0, PI);
-                    arc(i*400+240+107, 205, 36, 35, 0, PI);
-                    fill(255, 255, 255);
-                    arc(i*400+240+53, 205, 38, 28, 0, PI);
-                    arc(i*400+240+80, 205, 38, 28, 0, PI);
-                    arc(i*400+240+107, 205, 38, 28, 0, PI);
-                    
-                    stroke(0);
-                    fill(104, 118, 129);
-                    arc(i*400+200, 400, 204, 636, PI, 2*PI);
-                    noStroke();
-                    fill(255, 255, 255);
-                    arc(i*400+200, 130, 107, 97, PI, 2*PI);
-                    fill(255, 255, 255);
-                    
-                    arc(i*400+115+53, 130, 43, 41, 0, PI);
-                    arc(i*400+120+80, 130, 43, 41, 0, PI);
-                    arc(i*400+125+107, 130, 43, 41, 0, PI);
-                    fill(165, 242, 243);
-                    arc(i*400+115+53, 130, 36, 35, 0, PI);
-                    arc(i*400+120+80, 130, 36, 35, 0, PI);
-                    arc(i*400+125+107, 130, 36, 35, 0, PI);
-                    fill(255, 255, 255);
-                    arc(i*400+115+53, 130, 38, 28, 0, PI);
-                    arc(i*400+120+80, 130, 38, 28, 0, PI);
-                    arc(i*400+125+107, 130, 38, 28, 0, PI);
+                if(curr_level === 1) {
+                    image(snow_back, 0, 0, 1200, 400);
+                }
+                else if(curr_level === 2) {
+                    image(jungle_back, 0, 0, 1200, 400);
+                }
+                else if(curr_level === 3) {
+                    image(volcano_back, 0, 0, 1200, 400);
+                }
+                else if(curr_level === 4) {
+                    image(snow_back, 0, 0, 1200, 400);
                 }
             };
     
