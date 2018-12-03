@@ -146,6 +146,14 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             this.c2 = random(0, 255);
             this.timeLeft = 100;
         };
+        var particleObj1 = function(x, y) {
+            this.position = new PVector(x, y);
+            //this.velocity = new PVector(random(-0.5, 0.5), random(-0.5, 0.5));	// cartesian
+            this.velocity = new PVector(random(0, TWO_PI), random(-1.2, 1.2));
+            this.size = random(0, 2);
+            this.c2 = random(180, 255);
+            this.timeLeft = 100;
+        };
         var crate1Obj = function() {
             this.x = 0; 
             this.y = 0; 
@@ -159,6 +167,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
     
     
         var particles = [];
+        var particles1 = []; 
     
         // // Used to randomly choose colors for bricks
         // var brickObj = function() {
@@ -1015,10 +1024,24 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             //this.position.add(this.velocity);	// cartesian
             this.timeLeft--;
         };
+
+        particleObj1.prototype.move = function() {
+            var v = new PVector(this.velocity.y*cos(this.velocity.x),
+            this.velocity.y*sin(this.velocity.x));
+        
+            this.position.add(v);	
+            //this.position.add(this.velocity);	// cartesian
+            this.timeLeft--;
+        };
         
         particleObj.prototype.draw = function() {
             noStroke();
             fill(this.c1, this.c2, 0, this.timeLeft);
+            ellipse(this.position.x, this.position.y, this.size, this.size);
+        };
+        particleObj1.prototype.draw = function() {
+            noStroke();
+            fill(0, this.c2, 0, this.timeLeft);
             ellipse(this.position.x, this.position.y, this.size, this.size);
         };
     
@@ -1066,6 +1089,9 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                         aliens[i].hits -= 2; 
                     }
                     this.show = 0;  
+                    for (var i = 0; i < 100; i++) {
+                        particles1.push(new particleObj1(this.position.x, this.position.y - 30));
+                    }
                 }
                 // draw hitboxes
                 //fill(255, 0, 0); 
@@ -1253,6 +1279,17 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                         }
                         else {
                             particles.splice(i, 1);
+                        }
+                    }
+
+                    // blood
+                    for (var i = 0; i < particles1.length; i++) {
+                        if (particles1[i].timeLeft > 0) {
+                            particles1[i].draw();
+                            particles1[i].move();
+                        }
+                        else {
+                            particles1.splice(i, 1);
                         }
                     }
     
