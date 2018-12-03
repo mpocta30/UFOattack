@@ -866,6 +866,12 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             aliens[0].state = 0; 
             aliens[0].x += 700;
             aliens[0].hits = 5; 
+            for (var i = 0; i < particles.length; i++) {
+                particles[i].timeLeft = 0; 
+            }
+            for (var i = 0; i < particles1.length; i++) {
+                particles1[i].timeLeft = 0; 
+            }
         };
     
         mouseClicked = function() {
@@ -1378,7 +1384,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     if (level1_count >= 5) {
                         locks[curr_level].locked = false;
                         gamestate = 4;
-                        text("You have completed Level 1. Level 2 is coming soon, continue playing for now.", 250 + abs(scrollval.x), 25, 150, 100);
+                        resetGame(); 
                     }
     
                     fill(230, 0, 0);
