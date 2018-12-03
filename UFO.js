@@ -9,7 +9,7 @@
 
 var sketchProc=function(processingInstance){ with (processingInstance){
     size(400, 400); 
-    frameRate(50);
+    frameRate(60);
     
     
         
@@ -1030,7 +1030,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     this.state = 1; 
                 }
             }
-            else if (this.state === 1) {
+            else if (this.state === 1 && curr_level !== 4) {
                 this.x = this.x - this.speed; 
                 if (this.x < 0) {
                     this.speed = -this.speed; 
@@ -1038,6 +1038,18 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 else if (this.x > 400 * background_width) {
                     this.speed = -this.speed; 
                 }
+            }
+            else if (this.state === 1 && curr_level === 4) {
+                if (this.x > hero.position.x) {
+                    this.x -= this.speed; 
+                }
+                else {
+                    this.x += this.speed; 
+                }
+                if (this.y < -20) {
+                    this.y += 1.5; 
+                }
+                
             }
             // if hit five times, transition back to state 0 
             if (this.hits <= 0) {
@@ -1159,6 +1171,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                         particles1.push(new particleObj1(this.position.x, this.position.y - 37));
                     }
                 }
+                
                 // draw hitboxes
                 //fill(255, 0, 0); 
                 //ellipse(aliens[i].x + 39, aliens[i].y + 107, 50, 50); 
