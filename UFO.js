@@ -197,7 +197,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
         var lockObj = function(x, y) {
                 this.x = x;
                 this.y = y;
-                this.locked = true;
+                this.locked = false;
             }
     
         // Apply force to hero
@@ -1413,8 +1413,14 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     textSize(14); 
                     fill(24, 24, 24)
                     text("Health:", 250 + abs(scrollval.x), 380, 100, 100);
+                    if(curr_level === 1 || curr_level === 2) {
+                        fill(24, 24, 24)
+                    }
+                    else {
+                        fill(200, 200, 200);
+                    }
                     text("Destroyed", 250 + abs(scrollval.x), 10, 100, 100); 
-                    text(level1_count, 320 + abs(scrollval.x), 10, 100, 100); 
+                    text(level1_count, 320 + abs(scrollval.x), 10, 100, 100);
                     text("/ 5 Aliens", 330 + abs(scrollval.x), 10, 1000, 100); 
                     if (level1_count >= 5) {
                         locks[curr_level].locked = false;
