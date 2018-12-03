@@ -30,7 +30,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
         var jungle_back = loadImage("jungle.png");
         var volcano_back = loadImage("volcano.png");
         var snow_back = loadImage("glacial_mountains.png");
-    
+        
         var gamestate = 0;  // Main menu
         var difficultyval = 0; // Beginner
         var ingamestate = 0;
@@ -44,6 +44,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             fh: loadFont("FederationHull",20),
         }; 
         var stars = [];
+        var levelstars = [];
         var snowwalls = [];
         var junglewalls = [];
         var lavawalls = [];
@@ -56,10 +57,6 @@ var sketchProc=function(processingInstance){ with (processingInstance){
         var scrollval = new PVector(0, 0);
         var level1_count = 0; 
         var redFrame = -10; 
-
-        // power ups 
-        var power_double = 0; 
-        var power_rapid = 0; 
     
         // Forces
         var gravity = new PVector(0, 1.5);
@@ -85,7 +82,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             this.done = 0;
         };
         var starType = function() {
-            this.x = random(-50, 450);
+            this.x = random(-50, 1250);
             this.y = random(-50, 450);
             this.size = random(1, 3);
         };   
@@ -150,6 +147,11 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             this.c2 = random(0, 255);
             this.timeLeft = 100;
         };
+        var crate2Obj = function() {
+            this.x = 0; 
+            this.y = 0; 
+            this.show = 0; 
+        };
         var particleObj1 = function(x, y) {
             this.position = new PVector(x, y);
             //this.velocity = new PVector(random(-0.5, 0.5), random(-0.5, 0.5));	// cartesian
@@ -158,20 +160,10 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             this.c2 = random(180, 255);
             this.timeLeft = 100;
         };
-        var crate1Obj = function() {
-            this.x = 0; 
-            this.y = 0; 
-            this.show = 0; 
-        };
-        var crate2Obj = function() {
-            this.x = 0; 
-            this.y = 0; 
-            this.show = 0; 
-        };
     
     
         var particles = [];
-        var particles1 = []; 
+        var particles1 = [];
     
         // // Used to randomly choose colors for bricks
         // var brickObj = function() {
@@ -197,7 +189,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
         var lockObj = function(x, y) {
                 this.x = x;
                 this.y = y;
-                this.locked = false;
+                this.locked = true;
             }
     
         // Apply force to hero
@@ -240,6 +232,12 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             stars.push(new starType());
             
         }
+
+        // Creating level stars
+        for (var i= 0; i<200; i++) {
+            levelstars.push(new starType());
+            
+        }
     
         // Initialize different colors for bricks
         // for(var i = 0; i < 5; i++) {
@@ -275,11 +273,10 @@ var sketchProc=function(processingInstance){ with (processingInstance){
         var ingamemenubuttons = [controls, levels, quit];
     
         // Locked levels
-        locks.push(new lockObj(40, 175));
-        locks.push(new lockObj(110, 175));
-        locks.push(new lockObj(180, 175));
-        locks.push(new lockObj(250, 175));
-        locks.push(new lockObj(320, 175));
+        locks.push(new lockObj(45, 185));
+        locks.push(new lockObj(135, 185));
+        locks.push(new lockObj(225, 185));
+        locks.push(new lockObj(315, 185));
     
         // Level one is open to play
         locks[0].locked = false;
@@ -424,15 +421,98 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             var drawBackground = function() {
                 if(curr_level === 1) {
                     image(snow_back, 0, 0, 1200, 400);
+                    // background(135, 206, 235);
+                    // // Size of tilemap determines how many mountains in background
+                    // for(var i = 0; i < background_width; i++) {
+                    //     stroke(0);
+                    //     fill(104, 118, 129);
+                    //     arc(i*400+80, 400, 177, 460, PI, 2*PI);
+                    //     arc(i*400+320, 400, 177, 460, PI, 2*PI);
+                    //     noStroke();
+                    //     fill(255, 255, 255);
+                    //     arc(i*400+80, 205, 96, 73, PI, 2*PI);
+                    //     arc(i*400+320, 205, 96, 73, PI, 2*PI);
+                        
+                    //     arc(i*400+53, 205, 43, 41, 0, PI);
+                    //     arc(i*400+80, 205, 43, 41, 0, PI);
+                    //     arc(i*400+107, 205, 43, 41, 0, PI);
+                    //     fill(165, 242, 243);
+                    //     arc(i*400+53, 205, 36, 35, 0, PI);
+                    //     arc(i*400+80, 205, 36, 35, 0, PI);
+                    //     arc(i*400+107, 205, 36, 35, 0, PI);
+                    //     fill(255, 255, 255);
+                    //     arc(i*400+53, 205, 38, 28, 0, PI);
+                    //     arc(i*400+80, 205, 38, 28, 0, PI);
+                    //     arc(i*400+107, 205, 38, 28, 0, PI);
+                        
+                    //     arc(i*400+240+53, 205, 43, 41, 0, PI);
+                    //     arc(i*400+240+80, 205, 43, 41, 0, PI);
+                    //     arc(i*400+240+107, 205, 43, 41, 0, PI);
+                    //     fill(165, 242, 243);
+                    //     arc(i*400+240+53, 205, 36, 35, 0, PI);
+                    //     arc(i*400+240+80, 205, 36, 35, 0, PI);
+                    //     arc(i*400+240+107, 205, 36, 35, 0, PI);
+                    //     fill(255, 255, 255);
+                    //     arc(i*400+240+53, 205, 38, 28, 0, PI);
+                    //     arc(i*400+240+80, 205, 38, 28, 0, PI);
+                    //     arc(i*400+240+107, 205, 38, 28, 0, PI);
+                        
+                    //     stroke(0);
+                    //     fill(104, 118, 129);
+                    //     arc(i*400+200, 400, 204, 636, PI, 2*PI);
+                    //     noStroke();
+                    //     fill(255, 255, 255);
+                    //     arc(i*400+200, 130, 107, 97, PI, 2*PI);
+                    //     fill(255, 255, 255);
+                        
+                    //     arc(i*400+115+53, 130, 43, 41, 0, PI);
+                    //     arc(i*400+120+80, 130, 43, 41, 0, PI);
+                    //     arc(i*400+125+107, 130, 43, 41, 0, PI);
+                    //     fill(165, 242, 243);
+                    //     arc(i*400+115+53, 130, 36, 35, 0, PI);
+                    //     arc(i*400+120+80, 130, 36, 35, 0, PI);
+                    //     arc(i*400+125+107, 130, 36, 35, 0, PI);
+                    //     fill(255, 255, 255);
+                    //     arc(i*400+115+53, 130, 38, 28, 0, PI);
+                    //     arc(i*400+120+80, 130, 38, 28, 0, PI);
+                    //     arc(i*400+125+107, 130, 38, 28, 0, PI);
+                    // }
                 }
                 else if(curr_level === 2) {
-                    image(jungle_back, 0, 0, 1200, 400);
+                    image(jungle_back, 0, 0);
                 }
                 else if(curr_level === 3) {
                     image(volcano_back, 0, 0, 1200, 400);
+                    // background(0);
+                    // stroke(0);
+                    // fill(104, 118, 129);
+                    // quad(100, 400, 500, 50, 700, 50, 1100, 400);
+                    // noStroke();
+                    // fill(171, 0, 0);
+                    // quad(430, 110, 500, 50, 700, 50, 770, 110);
+                    // stroke(171, 0, 0);
+                    // strokeWeight(10);
+                    // line(500, 110, 550, 220);
+                    // line(550, 220, 570, 230);
+                    // line(550, 220, 545, 250);
+
+                    // line(700, 110, 710, 180);
+                    // line(710, 180, 620, 230);
+                    // line(710, 180, 745, 250);
+
+                    // line(435, 110, 280, 250);
+                    // line(310, 225, 320, 300);
+
+                    // line(765, 110, 920, 250);
+                    // line(890, 225, 880, 300);
+                    // strokeWeight(1);
                 }
                 else if(curr_level === 4) {
-                    image(snow_back, 0, 0, 1200, 400);
+                    background(0);
+                    // Stars
+                    for (var i=0; i<levelstars.length; i++) {
+                        levelstars[i].draw();
+                    }
                 }
             };
     
@@ -609,31 +689,15 @@ var sketchProc=function(processingInstance){ with (processingInstance){
     
         // Snow for the first level background
         snowflakeType.prototype.draw = function() {
-            stroke(255,255,255);
-            fill(255, 255, 255);
+            if(curr_level == 1) {
+                stroke(255, 255, 255);
+                fill(255, 255, 255);
+            }
+            else {
+                stroke(255, 234, 3);
+                fill(171, 0, 0);
+            }
             ellipse(this.x, this.y, this.size, this.size);
-        };
-
-        crate1Obj.prototype.draw = function() {
-            noStroke();
-            fill(153, 153, 153);
-            rect(this.x, this.y, 35, 35, 7); 
-            fill(0, 0, 0);
-            rect(this.x, this.y + 5, 35, 7);
-            fill(255, 234, 0);
-            rect(this.x + 3, this.y + 5, 4, 7); 
-            rect(this.x + 11, this.y + 5, 4, 7); 
-            rect(this.x + 19, this.y + 5, 4, 7); 
-            rect(this.x + 27, this.y + 5, 4, 7); 
-            fill(153, 153, 153);
-            rect(this.x + 15, this.y + 3, 4, 4); 
-        
-            fill(43, 43, 43);
-            ellipse(this.x + 17, this.y + 20, 4, 4); 
-            ellipse(this.x + 11, this.y + 23, 4, 4); 
-            ellipse(this.x + 23, this.y + 17, 4, 4); 
-        
-        
         };
     
         // double damage crate
@@ -677,28 +741,6 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             else {
                 this.x = aliens[0].x + 40; 
                 this.y = aliens[0].y + 140; 
-            }
-            if (dist(this.x + 17, this.y + 17, hero.position.x + 10, hero.position.y + 10) < 30) {
-                this.show = 0; 
-                power_double = 1; 
-                power_rapid = 0; // only one power active at once 
-            }
-        };
-        crate1Obj.prototype.move = function() {
-            if (this.y < (360 - 35) && this.show === 1) {
-                this.y += 4; 
-            }
-            else if (this.show === 1) {
-                
-            }
-            else {
-                this.x = aliens[0].x + 40; 
-                this.y = aliens[0].y + 140; 
-            }
-            if (dist(this.x + 17, this.y + 17, hero.position.x + 10, hero.position.y + 10) < 30) {
-                this.show = 0; 
-                power_double = 0; 
-                power_rapid = 1; // only one power active at once 
             }
         };
         heroObj.prototype.move = function() {
@@ -839,23 +881,26 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 }
             }
             // Level Select
-                else if(gamestate === 4) {
-                    for(var i = 0; i < locks.length; i++) {
-                        if((mouseX - (locks[i].x - 15)) >= 0 && (mouseY - (locks[i].y - 15)) >= 0 && (mouseX - (locks[i].x - 15)) <= 70 && (mouseY - (locks[i].y - 15)) <= 70) {
-                            switch(i) {
-                                case 0: if(locks[i].locked === false) {curr_level = 1}; break;
-                                case 1: if(locks[i].locked === false) {curr_level = 2}; break;
-                                case 2: if(locks[i].locked === false) {curr_level = 3}; break;
-                                case 3: if(locks[i].locked === false) {curr_level = 4}; break;
-                                case 4: if(locks[i].locked === false) {curr_level = 5}; break;
-                            }
-                            
+            else if(gamestate === 4) {
+                if((abs(backbutton.position.x - mouseX) <= 60) && (abs(backbutton.position.y - mouseY) <= 20) && gamestate !== 1) {
+                    gamestate = 0;
+                    return;
+                }
+                for(var i = 0; i < locks.length; i++) {
+                    if((mouseX - (locks[i].x - 25)) >= 0 && (mouseY - (locks[i].y - 25)) >= 0 && (mouseX - (locks[i].x - 25)) <= 90 && (mouseY - (locks[i].y - 25)) <= 90) {
+                        switch(i) {
+                            case 0: if(locks[i].locked === false) {curr_level = 1}; break;
+                            case 1: if(locks[i].locked === false) {curr_level = 2}; break;
+                            case 2: if(locks[i].locked === false) {curr_level = 3}; break;
+                            case 3: if(locks[i].locked === false) {curr_level = 4}; break;
                         }
-                    }
-                    if(curr_level !== 0) {
-                        gamestate = 1;
+                        
                     }
                 }
+                if(curr_level !== 0) {
+                    gamestate = 1;
+                }
+            }
             else {
                 if((abs(backbutton.position.x - mouseX) <= 60) && (abs(backbutton.position.y - mouseY) <= 20) && gamestate !== 1) {
                     gamestate = 0;
@@ -914,7 +959,6 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             bezier(20 + this.x, 130 + this.y, -20 + this.x, 10 + this.y, 100 + this.x, 10 + this.y, 60 + this.x, 130 + this.y); 
         };
     
-        var crate1 = new crate1Obj(); 
         var crate2 = new crate2Obj(); 
     
         alienObj.prototype.move = function() {
@@ -936,7 +980,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 }
             }
             // if hit five times, transition back to state 0 
-            if (this.hits <= 0) {
+            if (this.hits === 0) {
                 // generate explosion
                 for (var i = 0; i < 200; i++) {
                     particles.push(new particleObj(this.x + 40, this.y + 140));
@@ -948,16 +992,22 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 if (this.speed < 0) { this.speed = -this.speed }
     
                 // random chance of dropping crate 
-                var chance = round(random(0, 5)); 
-                //var chance = 2; 
+                //var chance = random(0, 8); 
+                var chance = 2; 
                 if (chance === 2) {
-                    crate1.show = 2; 
-                }
-                else if (chance === 1) {
                     crate2.show = 1; 
                 }
             }
             
+        };
+
+        particleObj1.prototype.move = function() {
+            var v = new PVector(this.velocity.y*cos(this.velocity.x),
+            this.velocity.y*sin(this.velocity.x));
+        
+            this.position.add(v);	
+            //this.position.add(this.velocity);	// cartesian
+            this.timeLeft--;
         };
         
         alienObj.prototype.wander = function() {
@@ -986,23 +1036,15 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             this.timeLeft--;
         };
 
-        particleObj1.prototype.move = function() {
-            var v = new PVector(this.velocity.y*cos(this.velocity.x),
-            this.velocity.y*sin(this.velocity.x));
-        
-            this.position.add(v);	
-            //this.position.add(this.velocity);	// cartesian
-            this.timeLeft--;
+        particleObj1.prototype.draw = function() {
+            noStroke();
+            fill(0, this.c2, 0, this.timeLeft);
+            ellipse(this.position.x, this.position.y, this.size, this.size);
         };
         
         particleObj.prototype.draw = function() {
             noStroke();
             fill(this.c1, this.c2, 0, this.timeLeft);
-            ellipse(this.position.x, this.position.y, this.size, this.size);
-        };
-        particleObj1.prototype.draw = function() {
-            noStroke();
-            fill(0, this.c2, 0, this.timeLeft);
             ellipse(this.position.x, this.position.y, this.size, this.size);
         };
     
@@ -1029,11 +1071,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             else if (this.state === 1) {
                 this.position.add(this.dir); 
                 // transition back to state 0 
-                if (frameCount - this.frame > 35 && power_rapid === 0) {
-                    this.state = 0; 
-                    this.show = 0; 
-                }
-                else if (frameCount - this.frame > 20 && power_rapid === 1) {
+                if (frameCount - this.frame > 35) {
                     this.state = 0; 
                     this.show = 0; 
                 }
@@ -1043,13 +1081,9 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 if ((dist(aliens[i].x + 39, aliens[i].y + 107, this.position.x, this.position.y) < 50 ||
                         dist(15 + aliens[i].x, 150 + aliens[i].y, this.position.x, this.position.y) < 40 ||
                         dist(75 + aliens[i].x, 150 + aliens[i].y, this.position.x, this.position.y) < 40) && this.show === 1) {
-                    if (power_double === 0) {
-                        aliens[i].hits--;
-                    }
-                    else if (power_double === 1) {
-                        aliens[i].hits -= 2; 
-                    }
+                    aliens[i].hits--;
                     this.show = 0;  
+    
                     for (var i = 0; i < 100; i++) {
                         particles1.push(new particleObj1(this.position.x, this.position.y - 30));
                     }
@@ -1177,12 +1211,14 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             // Gameplay
             else if(gamestate === 1) {
                 background(135, 206, 235);
-                menu.draw();
                 if(ingamestate === 1) {
+                    menu.draw();
                     for(var i = 0; i < ingamemenubuttons.length; i++) {
                         ingamemenubuttons[i].draw();   
                     }
                 }
+
+                // Reset all game settings
                 else if (ingamestate === 2) {
                     textSize(30); 
                     text("You died", 140, 70, 1000, 1000); 
@@ -1191,6 +1227,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     }
                 }
                 else if (ingamestate === 3) {
+                    menu.draw();
                     textSize(20); 
                     fill(30, 30, 30); 
                     text("Use WASD to move the Drone around. Click the left mouse button to fire.", 80, 100, 250, 200); 
@@ -1205,11 +1242,17 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     drawBackground();
                     
                     // Snow Fall
-                    for (var i=0; i<snowflakes.length; i++) {
-                        snowflakes[i].move();
-                        snowflakes[i].draw();
+                    if(curr_level === 1 || curr_level === 3) {
+                        for (var i=0; i<snowflakes.length; i++) {
+                            snowflakes[i].move();
+                            snowflakes[i].draw();
+                        }
                     }
                     displayTilemap();
+
+                    translate(-scrollval.x, -scrollval.y);
+                    menu.draw();
+                    translate(scrollval.x, scrollval.y);
                     
                     // Display hero and make him move
                     hero.move();
@@ -1261,10 +1304,6 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     if (crate2.show === 1) {
                         crate2.draw(); 
                     }
-                    crate1.move(); 
-                    if (crate1.show === 1) {
-                        crate1.draw(); 
-                    }
     
                     //fill(255, 0, 0);
                     //text(aliens[0].x, 100, 100, 100, 100); 
@@ -1275,9 +1314,17 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     text("Destroyed", 250 + abs(scrollval.x), 10, 100, 100); 
                     text(level1_count, 320 + abs(scrollval.x), 10, 100, 100); 
                     text("/ 5 Aliens", 330 + abs(scrollval.x), 10, 1000, 100); 
+                    if (level1_count >= 5) {
+                        locks[curr_level].locked = false;
+                        gamestate = 4;
+                        text("You have completed Level 1. Level 2 is coming soon, continue playing for now.", 250 + abs(scrollval.x), 25, 150, 100);
+                    }
     
                     fill(230, 0, 0);
-                    rect(300 + abs(scrollval.x), 380, 7*hero.hits, 10); 
+                    rect(300 + abs(scrollval.x), 380, 7*hero.hits, 10);
+
+                    // Fix this David
+                    rect(aliens[0].x, aliens[0].y - 10, 7*alien1.hits, 10);
     
                     // died case 
                     if (hero.hits === 0) {
@@ -1289,16 +1336,20 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             else if(gamestate === 2) {
                 background(0);
                 backbutton.draw();
-                fill(34,139,34);
-                textSize(21);
-                text("You control one of Earth\'s last warriors: a nameless COMMANDO. He is motivated by nothing but hate for the invaders. He will not stop until the MOTHERSHIP has been wiped from existence. He is master of every weapon. Your mission is simple: destroy every UFO you see. Use whatever the fallen enemies drop to aid you- and SURVIVE.", 20, 60, 360, 400);
-                backbutton.draw();
-                
+
                 // Stars
                 for (var i=0; i<stars.length; i++) {
                     stars[i].move();
                     stars[i].draw();
                 }
+
+                fill(192,192,192);
+                rect(10, 50, 360, 250);
+                fill(34,139,34);
+                textSize(21);
+                text("You control one of Earth\'s last warriors: a nameless COMMANDO. He is motivated by nothing but hate for the invaders. He will not stop until the MOTHERSHIP has been wiped from existence. He is master of every weapon. Your mission is simple: destroy every UFO you see. Use whatever the fallen enemies drop to aid you- and SURVIVE.", 20, 60, 360, 400);
+                backbutton.draw();
+                
             }
             // Difficulty
             else if(gamestate === 3) {
@@ -1339,6 +1390,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             // Level Select
                 else if(gamestate === 4) {
                 background(0);
+                backbutton.draw();
     
                 // Stars
                 for (var i=0; i<stars.length; i++) {
@@ -1348,24 +1400,23 @@ var sketchProc=function(processingInstance){ with (processingInstance){
     
                 // Draw Level squares
                 fill(255, 0, 0);
-                for(var i = 0; i < 5; i++) {
+                for(var i = 0; i < locks.length; i++) {
                     if(locks[i].locked === true) {
                         fill(255, 0, 0);
                     }
                     else {
                         fill(0, 255, 0);
                     }
-                    rect(i*70+25, 150, 70, 70);
+                    rect(i*90+20, 150, 90, 90);
                 }
     
                 // Draw Level Numbers
                 textSize(32);
                 fill(0);
-                text('1', 50, 195);
-                text('2', 120, 195);
-                text('3', 190, 195);
-                text('4', 260, 195);
-                text('5', 330, 195);
+                text('1', 55, 205);
+                text('2', 145, 205);
+                text('3', 235, 205);
+                text('4', 325, 205);
     
                 // Draw locks
                 for(var i = 0; i < locks.length; i++) {
