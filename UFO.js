@@ -124,7 +124,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             switch(difficultyval) {
                 case 0: this.speed = 1.5; 
                 case 1: this.speed = 2; 
-                case 2: this.speed = 3; 
+                case 2: this.speed = 3.5; 
             }
             this.hits = 5;
             this.step = new PVector(0, 0);
@@ -587,10 +587,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             rect(this.x, this.y + 20, 40, 20); 
             fill(40, 40, 40, 90);
             rect(this.x, this.y + 30, 40, 10); 
-            fill(255, 234, 3);
-            arc(this.x + 20, this.y, 39, 19, 0, PI); 
-            fill(171, 0, 0);
-            arc(this.x + 20, this.y, 37, 16, 0, PI); 
+            
         };
     
         moonwallObj.prototype.draw = function() {
@@ -1192,7 +1189,13 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             }
             else if (this.state === 1) {
                 this.position.add(this.dir); 
-                if (frameCount - this.frame > 40) {
+                var fire_time = 0; 
+                switch (difficultyval) {
+                    case 0: fire_time = 50; 
+                    case 1: fire_time = 40; 
+                    case 2: fire_time = 30; 
+                }
+                if (frameCount - this.frame > fire_time) {
                     this.state = 2; // transition back to non-fired state 
                     this.show = 0; 
                     this.frame = frameCount; 
@@ -1296,6 +1299,13 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 else if (ingamestate === 2) {
                     textSize(30); 
                     text("You died", 140, 70, 1000, 1000); 
+                    for(var i = 0; i < ingamemenubuttons.length; i++) {
+                        ingamemenubuttons[i].draw();   
+                    }
+                }
+                else if (ingamestate === 5) {
+                    textSize(30); 
+                    text("You win!", 140, 70, 1000, 1000); 
                     for(var i = 0; i < ingamemenubuttons.length; i++) {
                         ingamemenubuttons[i].draw();   
                     }
@@ -1433,15 +1443,20 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     text("Destroyed", 250 + abs(scrollval.x), 10, 100, 100); 
                     text(level1_count, 320 + abs(scrollval.x), 10, 100, 100);
                     text("/ 5 Aliens", 330 + abs(scrollval.x), 10, 1000, 100); 
-                    if (level1_count >= 5) {
+                    if (level1_count >= 1 && curr_level !== 4) {
                         locks[curr_level].locked = false;
                         gamestate = 4;
+                        resetGame(); 
+                    }
+                    else if (level1_count >= 1 && curr_level === 4) {
+                        ingamestate = 5; 
                         resetGame(); 
                     }
     
                     // Health Bars
                     fill(230, 0, 0);
                     rect(300 + abs(scrollval.x), 380, 7*hero.hits, 10);
+                    fill(0, 230, 0); 
                     for(var i = 0; i < aliens.length; i++) {
                         rect(aliens[i].x+15, aliens[i].y + 25, 10*aliens[0].hits, 10);
                     }
