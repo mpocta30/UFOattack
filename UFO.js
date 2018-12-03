@@ -9,7 +9,7 @@
 
 var sketchProc=function(processingInstance){ with (processingInstance){
     size(400, 400); 
-    frameRate(60);
+    frameRate(50);
     
     
         
@@ -1109,7 +1109,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             pushMatrix();
             translate(this.position.x + 20, this.position.y + -48); 
             fill(209, 2, 2);
-            ellipse(23*cos(ang), 23*sin(ang), 4, 4); 
+            ellipse(23*cos(radians(ang)), 23*sin(radians(ang)), 4, 4); 
             popMatrix(); 
         };
         
@@ -1142,7 +1142,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     this.show = 0;  
     
                     for (var i = 0; i < 100; i++) {
-                        particles1.push(new particleObj1(this.position.x, this.position.y - 30));
+                        particles1.push(new particleObj1(this.position.x, this.position.y - 37));
                     }
                 }
                 // draw hitboxes
@@ -1385,7 +1385,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     rect(300 + abs(scrollval.x), 380, 7*hero.hits, 10);
 
                     // Fix this David
-                    rect(aliens[0].x, aliens[0].y - 10, 7*alien1.hits, 10);
+                    //rect(aliens[0].x, aliens[0].y - 10, 7*alien1.hits, 10);
     
                     // died case 
                     if (hero.hits === 0) {
