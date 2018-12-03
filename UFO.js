@@ -1291,7 +1291,6 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 }
                 else if (ingamestate === 3) {
                     menu.draw();
-                    
                     // WASD
                     noStroke();
                     fill(169, 169, 169);
@@ -1329,7 +1328,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     crate1.draw();
                     crate2.draw();
                     text("Rapid Fire", 100, 300);
-                    text("Double Damage", 100, 350); 
+                    text("Double Damage", 100, 350);
                 }
                 else {
                     if(initialized === 0) {
