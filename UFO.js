@@ -928,6 +928,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     curr_level = 0;
                     ingamestate = 0;
                     gamestate = 4;
+                    resetGame(); 
                 }
                 else if ((abs(controls.position.x - mouseX) <= 60) && (abs(controls.position.y - mouseY) <= 20) && ingamestate === 1) {
                     ingamestate = 3;
