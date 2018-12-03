@@ -1462,12 +1462,12 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     text("Destroyed", 250 + abs(scrollval.x), 10, 100, 100); 
                     text(level1_count, 320 + abs(scrollval.x), 10, 100, 100);
                     text("/ 5 Aliens", 330 + abs(scrollval.x), 10, 1000, 100); 
-                    if (level1_count >= 1 && curr_level !== 4) {
+                    if (level1_count >= 5 && curr_level !== 4) {
                         locks[curr_level].locked = false;
                         gamestate = 4;
                         resetGame(); 
                     }
-                    else if (level1_count >= 1 && curr_level === 4) {
+                    else if (level1_count >= 5 && curr_level === 4) {
                         ingamestate = 5; 
                         resetGame(); 
                     }
