@@ -1040,14 +1040,18 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 }
             }
             else if (this.state === 1 && curr_level === 4) {
-                if (this.x > hero.position.x) {
+                if (this.x > hero.position.x + 10) {
                     this.x -= this.speed; 
                 }
-                else {
+                else if (this.x < hero.position.x - 10) {
                     this.x += this.speed; 
                 }
                 if (this.y < -20) {
                     this.y += 1.5; 
+                }
+                if (dist(0 + this.x, 150 + this.y, bullet.position.x, bullet.position.y) < 40 ||
+                dist(90 + this.x, 150 + this.y, bullet.position.x, bullet.position.y) < 40) {
+                    this.y -= 5.5
                 }
                 
             }
