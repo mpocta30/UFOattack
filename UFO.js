@@ -1291,9 +1291,45 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 }
                 else if (ingamestate === 3) {
                     menu.draw();
+                    
+                    // WASD
+                    noStroke();
+                    fill(169, 169, 169);
+                    rect(150, 50, 50, 50);
+                    rect(110, 100, 50, 50);
+                    rect(160, 100, 50, 50);
+                    rect(210, 100, 50, 50);
+
+                    fill(0);
+                    rect(155, 55, 40, 40);
+                    rect(115, 105, 40, 40);
+                    rect(165, 105, 40, 40);
+                    rect(215, 105, 40, 40);
+
+                    fill(169, 169, 169);
+                    rect(160, 55, 30, 30);
+                    rect(120, 105, 30, 30);
+                    rect(170, 105, 30, 30);
+                    rect(220, 105, 30, 30);
+
+                    fill(0);
                     textSize(20); 
+
+                    text("W", 160, 75);
+                    text("A", 120, 125);
+                    text("S", 170, 125);
+                    text("D", 220, 125);
+
                     fill(30, 30, 30); 
-                    text("Use WASD to move the Drone around. Click the left mouse button to fire.", 80, 100, 250, 200); 
+                    text("Use WASD to move the Drone around. Click the left mouse button to fire.", 80, 175, 250, 200);
+                    crate1.x = 50;
+                    crate1.y = 275;
+                    crate2.x = 50;
+                    crate2.y = 325;
+                    crate1.draw();
+                    crate2.draw();
+                    text("Rapid Fire", 100, 300);
+                    text("Double Damage", 100, 350); 
                 }
                 else {
                     if(initialized === 0) {
