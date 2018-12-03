@@ -862,7 +862,9 @@ var sketchProc=function(processingInstance){ with (processingInstance){
         };
     
         var resetGame = function() {
-            hero.hits = 10;  
+            if (difficultyval !== 2) {
+                hero.hits = 10;  
+            }
             level1_count = 0;
             aliens[0].state = 0;    
             aliens[0].x += 700;
