@@ -201,7 +201,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
         var lockObj = function(x, y) {
                 this.x = x;
                 this.y = y;
-                this.locked = false;
+                this.locked = true;
             }
     
         // Apply force to hero
