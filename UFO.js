@@ -57,6 +57,9 @@ var sketchProc=function(processingInstance){ with (processingInstance){
         var scrollval = new PVector(0, 0);
         var level1_count = 0; 
         var redFrame = -10; 
+
+        var power_double = 0; 
+        var power_rapid = 0; 
     
         // Forces
         var gravity = new PVector(0, 1.5);
@@ -146,6 +149,11 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             this.c1 = random(155, 255);
             this.c2 = random(0, 255);
             this.timeLeft = 100;
+        };
+        var crate1Obj = function() {
+            this.x = 0; 
+            this.y = 0; 
+            this.show = 0; 
         };
         var crate2Obj = function() {
             this.x = 0; 
@@ -699,7 +707,27 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             }
             ellipse(this.x, this.y, this.size, this.size);
         };
-    
+        crate1Obj.prototype.draw = function() {
+            noStroke();
+            fill(153, 153, 153);
+            rect(this.x, this.y, 35, 35, 7); 
+            fill(0, 0, 0);
+            rect(this.x, this.y + 5, 35, 7);
+            fill(255, 234, 0);
+            rect(this.x + 3, this.y + 5, 4, 7); 
+            rect(this.x + 11, this.y + 5, 4, 7); 
+            rect(this.x + 19, this.y + 5, 4, 7); 
+            rect(this.x + 27, this.y + 5, 4, 7); 
+            fill(153, 153, 153);
+            rect(this.x + 15, this.y + 3, 4, 4); 
+        
+            fill(43, 43, 43);
+            ellipse(this.x + 17, this.y + 20, 4, 4); 
+            ellipse(this.x + 11, this.y + 23, 4, 4); 
+            ellipse(this.x + 23, this.y + 17, 4, 4); 
+        
+        
+        };
         // double damage crate
         crate2Obj.prototype.draw = function() {
             noStroke();
@@ -731,6 +759,23 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 if (snowflakes[i].y > 450) { snowflakes[i].y -= 500;}
         }
         };
+        crate1Obj.prototype.move = function() {
+            if (this.y < (360 - 35) && this.show === 1) {
+                this.y += 4; 
+            }
+            else if (this.show === 1) {
+                
+            }
+            else {
+                this.x = aliens[0].x + 40; 
+                this.y = aliens[0].y + 140; 
+            }
+            if (dist(this.x + 17, this.y + 17, hero.position.x + 10, hero.position.y + 10) < 30) {
+                this.show = 0; 
+                power_double = 0; 
+                power_rapid = 1; // only one power active at once 
+            }
+        };
         crate2Obj.prototype.move = function() {
             if (this.y < (360 - 35) && this.show === 1) {
                 this.y += 4; 
@@ -741,6 +786,11 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             else {
                 this.x = aliens[0].x + 40; 
                 this.y = aliens[0].y + 140; 
+            }
+            if (dist(this.x + 17, this.y + 17, hero.position.x + 10, hero.position.y + 10) < 30) {
+                this.show = 0; 
+                power_double = 1; 
+                power_rapid = 0; // only one power active at once 
             }
         };
         heroObj.prototype.move = function() {
@@ -959,6 +1009,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             bezier(20 + this.x, 130 + this.y, -20 + this.x, 10 + this.y, 100 + this.x, 10 + this.y, 60 + this.x, 130 + this.y); 
         };
     
+        var crate1 = new crate1Obj(); 
         var crate2 = new crate2Obj(); 
     
         alienObj.prototype.move = function() {
@@ -992,10 +1043,12 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 if (this.speed < 0) { this.speed = -this.speed }
     
                 // random chance of dropping crate 
-                //var chance = random(0, 8); 
-                var chance = 2; 
+                var chance = round(random(0, 5)); 
                 if (chance === 2) {
                     crate2.show = 1; 
+                }
+                else if (chance === 1) {
+                    crate1.show = 1; 
                 }
             }
             
@@ -1071,7 +1124,11 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             else if (this.state === 1) {
                 this.position.add(this.dir); 
                 // transition back to state 0 
-                if (frameCount - this.frame > 35) {
+                if (frameCount - this.frame > 35 && power_rapid === 0) {
+                    this.state = 0; 
+                    this.show = 0; 
+                }
+                else if (frameCount - this.frame > 20 && power_rapid === 1) {
                     this.state = 0; 
                     this.show = 0; 
                 }
@@ -1300,6 +1357,10 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                     redScreen(); 
     
                     // loot crates 
+                    crate1.move(); 
+                    if (crate1.show === 1) {
+                        crate1.draw(); 
+                    }
                     crate2.move(); 
                     if (crate2.show === 1) {
                         crate2.draw(); 
