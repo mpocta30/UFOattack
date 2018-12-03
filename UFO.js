@@ -1318,6 +1318,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 else if (ingamestate === 2) {
                     textSize(30); 
                     text("You died", 140, 70, 1000, 1000); 
+                    resetGame(); 
                     for(var i = 0; i < ingamemenubuttons.length; i++) {
                         ingamemenubuttons[i].draw();   
                     }
