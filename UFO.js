@@ -121,7 +121,11 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             this.x = x; 
             this.y = y; 
             this.state = 0; 
-            this.speed = 2; 
+            switch(difficultyval) {
+                case 0: this.speed = 1.5; 
+                case 1: this.speed = 2; 
+                case 2: this.speed = 3; 
+            }
             this.hits = 5;
             this.step = new PVector(0, 0);
             this.wanderAngle = radians(random(0, 180));
@@ -861,9 +865,9 @@ var sketchProc=function(processingInstance){ with (processingInstance){
         };
     
         var resetGame = function() {
-            hero.hits = 10; 
+            hero.hits = 10;  
             level1_count = 0;
-            aliens[0].state = 0; 
+            aliens[0].state = 0;    
             aliens[0].x += 700;
             aliens[0].hits = 5; 
             for (var i = 0; i < particles.length; i++) {
@@ -872,6 +876,8 @@ var sketchProc=function(processingInstance){ with (processingInstance){
             for (var i = 0; i < particles1.length; i++) {
                 particles1[i].timeLeft = 0; 
             }
+            power_double = 0; 
+            power_rapid = 0; 
         };
     
         mouseClicked = function() {
@@ -1037,7 +1043,7 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 }
             }
             // if hit five times, transition back to state 0 
-            if (this.hits === 0) {
+            if (this.hits <= 0) {
                 // generate explosion
                 for (var i = 0; i < 200; i++) {
                     particles.push(new particleObj(this.x + 40, this.y + 140));
@@ -1144,7 +1150,12 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                 if ((dist(aliens[i].x + 39, aliens[i].y + 107, this.position.x, this.position.y) < 50 ||
                         dist(15 + aliens[i].x, 150 + aliens[i].y, this.position.x, this.position.y) < 40 ||
                         dist(75 + aliens[i].x, 150 + aliens[i].y, this.position.x, this.position.y) < 40) && this.show === 1) {
-                    aliens[i].hits--;
+                    if (power_double) {
+                        aliens[i].hits -= 2; 
+                    }
+                    else {
+                        aliens[i].hits--;
+                    }
                     this.show = 0;  
     
                     for (var i = 0; i < 100; i++) {
