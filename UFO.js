@@ -1422,8 +1422,12 @@ var sketchProc=function(processingInstance){ with (processingInstance){
                         resetGame(); 
                     }
     
+                    // Health Bars
                     fill(230, 0, 0);
                     rect(300 + abs(scrollval.x), 380, 7*hero.hits, 10);
+                    for(var i = 0; i < aliens.length; i++) {
+                        rect(aliens[i].x+15, aliens[i].y + 25, 10*aliens[0].hits, 10);
+                    }
 
                     // Fix this David
                     //rect(aliens[0].x, aliens[0].y - 10, 7*alien1.hits, 10);
